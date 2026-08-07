@@ -1,0 +1,29 @@
+"use client";
+
+import { useEffect } from "react";
+
+export function ServiceWorkerRegister() {
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) return;
+
+    const isDev = process.env.NODE_ENV === "development";
+
+    if (isDev) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => registration.unregister());
+      });
+      if ("caches" in window) {
+        caches.keys().then((keys) => {
+          keys.forEach((key) => caches.delete(key));
+        });
+      }
+      return;
+    }
+
+    navigator.serviceWorker.register("/sw.js").catch(() => {
+      // Silent fail — PWA is optional enhancement
+    });
+  }, []);
+
+  return null;
+}

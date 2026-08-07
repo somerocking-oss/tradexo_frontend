@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Tradexo">
+  <defs>
+    <linearGradient id="txOrange" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF8533"/>
+      <stop offset="0.5" stop-color="#FF6C00"/>
+      <stop offset="1" stop-color="#E86200"/>
+    </linearGradient>
+    <linearGradient id="txGlow" x1="256" y1="96" x2="256" y2="416" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.88"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#txOrange)"/>
+  <path fill="url(#txGlow)" d="M256 128v168"/>
+  <path fill="url(#txGlow)" d="M148 176h216"/>
+  <path fill="url(#txGlow)" d="M148 176l52-48 52 48"/>
+  <path fill="url(#txGlow)" d="M364 176l-52-48-52 48"/>
+  <path fill="url(#txGlow)" d="M148 176l-36 36 36 36h36l-36-36 36-36H148z"/>
+  <path fill="url(#txGlow)" d="M364 176l36 36-36 36h-36l36-36-36-36h36z"/>
+  <circle cx="176" cy="368" r="28" fill="url(#txGlow)"/>
+  <circle cx="336" cy="368" r="28" fill="url(#txGlow)"/>
+  <path fill="url(#txGlow)" d="M204 368h104v24H204z"/>
+  <circle cx="256" cy="296" r="20" fill="url(#txGlow)"/>
+</svg>
