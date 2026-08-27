@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.env*
+!.env.local.example
+!.env.production.example
+.next
+coverage
+*.log
+.git
+*.tsbuildinfo
+.dev-server*.log
