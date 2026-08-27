@@ -5,17 +5,20 @@ import { Button } from "@/components/ui/button";
 import { SITE_URL } from "@/lib/constants";
 import { trackShareClick } from "@/lib/analytics/track";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { getBusinessProfilePath } from "@/lib/business-url";
 
 export function ShareBusinessButton({
   businessId,
+  businessSlug,
   businessName,
   city,
 }: {
   businessId: string;
+  businessSlug?: string;
   businessName: string;
   city?: string;
 }) {
-  const url = `${SITE_URL}/business/${businessId}`;
+  const url = `${SITE_URL}${getBusinessProfilePath({ _id: businessId, slug: businessSlug })}`;
   const text = `Check out ${businessName}${city ? ` in ${city}` : ""} on Tradexo: ${url}`;
 
   const handleShare = async () => {

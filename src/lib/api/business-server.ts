@@ -100,6 +100,27 @@ export const searchBusinessesServerWithMeta = cache(
   }
 );
 
+/** Cheap total-only lookup for a city/category/subcategory combo — used to
+ *  decide whether a combo page has enough real content to be indexable.
+ *  Search filters by categoryId/subCategoryId, not slug (see
+ *  searchBusinessesServerWithMeta callers in loadListingsPage.ts), so this
+ *  takes ids even though every caller only has slugs on hand at first. */
+export const getCategoryCityBusinessCount = cache(
+  async (params: { city?: string; categoryId?: string; subCategoryId?: string }) => {
+    const { total } = await searchBusinessesServerWithMeta({ ...params, limit: 1 });
+    return total;
+  }
+);
+
+/** Same idea as getCategoryCityBusinessCount, for role×city pages
+ *  (/manufacturers-in-{city}) — gates indexability the same way. */
+export const getRoleBusinessCount = cache(
+  async (params: { city?: string; marketplaceType?: string }) => {
+    const { total } = await searchBusinessesServerWithMeta({ ...params, limit: 1 });
+    return total;
+  }
+);
+
 export interface StateDirectoryEntry {
   state: string;
   slug: string;

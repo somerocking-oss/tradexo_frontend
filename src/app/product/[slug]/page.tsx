@@ -9,7 +9,7 @@ import { StickyProductContact } from "@/components/business/StickyProductContact
 import { getProductBySlugServer } from "@/lib/api/products-server";
 import { getProductPath } from "@/lib/product-url";
 import { getBusinessProfilePath } from "@/lib/business-url";
-import { buildListingsCityPath } from "@/lib/listings-url";
+import { buildListingsCityPath, buildListingsCategoryPath } from "@/lib/listings-url";
 import { getImageUrl } from "@/lib/utils";
 import { buildBreadcrumbJsonLd, buildProductJsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/lib/constants";
@@ -85,7 +85,7 @@ export default async function ProductPage({
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: "Home", url: SITE_URL },
     { name: "Products", url: `${SITE_URL}/products` },
-    ...(category ? [{ name: category.name, url: `${SITE_URL}/listings/category/${category.slug}` }] : []),
+    ...(category?.slug ? [{ name: category.name || category.slug, url: `${SITE_URL}${buildListingsCategoryPath(category.slug)}` }] : []),
     { name: product.name, url: productUrl },
   ]);
 
@@ -142,8 +142,8 @@ export default async function ProductPage({
 
             <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-neutral-600">
               {product.brand && <span>Brand: <strong className="text-neutral-900">{product.brand}</strong></span>}
-              {category && (
-                <Link href={`/listings/category/${category.slug}`} className="text-[#FF6C00] hover:underline">
+              {category?.slug && (
+                <Link href={buildListingsCategoryPath(category.slug)} className="text-[#FF6C00] hover:underline">
                   {category.name}
                 </Link>
               )}

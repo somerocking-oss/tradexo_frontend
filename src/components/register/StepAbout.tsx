@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
-import type { BusinessRegistrationDraft } from "@/lib/business-registration";
+import {
+  MIN_FULL_DESCRIPTION_LENGTH,
+  MIN_SHORT_DESCRIPTION_LENGTH,
+  RECOMMENDED_FULL_DESCRIPTION_LENGTH,
+  type BusinessRegistrationDraft,
+} from "@/lib/business-registration";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { generateListingWithAi, getAiSettings } from "@/lib/api/ai";
@@ -85,7 +90,10 @@ export function StepAbout({ draft, categories = [], onChange }: Props) {
       <div className="space-y-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-700">
-            Short Description * <span className="font-normal text-slate-400">(max 300 chars)</span>
+            Short Description *{" "}
+            <span className="font-normal text-slate-400">
+              ({MIN_SHORT_DESCRIPTION_LENGTH}–300 chars)
+            </span>
           </label>
           <textarea
             rows={2}
@@ -99,17 +107,40 @@ export function StepAbout({ draft, categories = [], onChange }: Props) {
             onChange={(e) => onChange({ shortDescription: e.target.value })}
             className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-[#ff6c00] focus:ring-2 focus:ring-[#e8e8e8]"
           />
+          <p
+            className={`mt-1 text-xs ${
+              draft.shortDescription.trim().length < MIN_SHORT_DESCRIPTION_LENGTH
+                ? "text-amber-600"
+                : "text-slate-400"
+            }`}
+          >
+            {draft.shortDescription.trim().length}/{MIN_SHORT_DESCRIPTION_LENGTH} minimum
+          </p>
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Full Description</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700">
+            Full Description *{" "}
+            <span className="font-normal text-slate-400">
+              ({MIN_FULL_DESCRIPTION_LENGTH}+ chars, {RECOMMENDED_FULL_DESCRIPTION_LENGTH}+ recommended)
+            </span>
+          </label>
           <textarea
-            rows={5}
-            placeholder="Products/services, experience, certifications, delivery areas..."
+            rows={7}
+            placeholder="Tell buyers what your business does, what products/services you provide, where you operate, and why customers should choose you. Include experience, certifications and delivery areas..."
             value={draft.description}
             onChange={(e) => onChange({ description: e.target.value })}
             className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-[#ff6c00] focus:ring-2 focus:ring-[#e8e8e8]"
           />
+          <p
+            className={`mt-1 text-xs ${
+              draft.description.trim().length < MIN_FULL_DESCRIPTION_LENGTH
+                ? "text-amber-600"
+                : "text-slate-400"
+            }`}
+          >
+            {draft.description.trim().length}/{MIN_FULL_DESCRIPTION_LENGTH} minimum
+          </p>
         </div>
 
         <div>

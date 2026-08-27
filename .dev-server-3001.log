@@ -1,0 +1,27 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3001
+   - Network:      http://172.24.224.1:3001
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 4.6s
+ ○ Compiling / ...
+ ✓ Compiled / in 24.9s (4903 modules)
+ GET / 200 in 29397ms
+ ○ Compiling /blog/[slug] ...
+ ✓ Compiled /blog/[slug] in 4.6s (4914 modules)
+ GET /blog/the-future-of-b2b-e-commerce-in-india-key-trends-for-2026 200 in 9665ms
+ GET / 200 in 2421ms
+ ○ Compiling /register-business ...
+ ✓ Compiled /register-business in 6.1s (5007 modules)
+ GET /register-business 200 in 7507ms
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}
+[TypeError: fetch failed] {
+  [cause]: [AggregateError: ] { code: 'ECONNREFUSED' }
+}

@@ -46,6 +46,7 @@ const DEFAULT_NAV: NavigationSettings = {
     { href: "/listings?sellerIntent=services", label: "Services" },
     { href: "/browse", label: "Categories" },
     { href: "/listings", label: "Deals" },
+    { href: "/blog", label: "Blog" },
   ],
   ctaRfq: { label: "Post RFQ", href: "/post-requirement", enabled: true },
   ctaListBusiness: { label: "List Your Business", href: "/register-business", enabled: true },

@@ -1,6 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
+import {
+  Store,
+  MapPin,
+  BadgeCheck,
+  TrendingUp,
+  Star,
+  Users,
+  Zap,
+  Globe2,
+  ShieldCheck,
+  Handshake,
+  Headphones,
+  Rocket,
+  CreditCard,
+  Lock,
+  Send,
+  type LucideIcon,
+} from "lucide-react";
 import { TradexoLogo } from "@/components/brand/TradexoLogo";
 import { DEFAULT_SITE_LOGO } from "@/lib/brand";
 import { SITE_NAME } from "@/lib/constants";
@@ -8,6 +26,24 @@ import type { FooterSettings } from "@/lib/cms";
 import type { DisplayStat } from "@/lib/platform-stats";
 import { buildListingsUrl, buildListingsCityPath, categoryToSlug } from "@/lib/listings-url";
 import type { Category } from "@/types";
+
+const STAT_ICON_MAP: Record<string, LucideIcon> = { Users, TrendingUp, Zap, Globe2, Star, BadgeCheck };
+
+function resolveStatIcon(stat: { label?: string; icon?: string }): LucideIcon {
+  const label = (stat.label || "").toLowerCase();
+  if (/business|listing|suppl|vendor/.test(label)) return Store;
+  if (/cit(y|ies)/.test(label)) return MapPin;
+  if (/verif|trust/.test(label)) return BadgeCheck;
+  if (/rating|review/.test(label)) return Star;
+  return STAT_ICON_MAP[stat.icon || ""] || Users;
+}
+
+const TRUST_BADGES: Array<{ title: string; description: string; Icon: LucideIcon }> = [
+  { title: "Safe & Secure", description: "Your data is protected with top security", Icon: ShieldCheck },
+  { title: "Trusted Network", description: "Connect with verified businesses", Icon: Handshake },
+  { title: "24/7 Support", description: "We're here to help you anytime", Icon: Headphones },
+  { title: "Grow Faster", description: "Get more visibility & quality leads", Icon: Rocket },
+];
 
 const DEFAULT_FOOTER: FooterSettings = {
   tagline: "India's premium B2B business discovery platform.",
@@ -36,6 +72,7 @@ const DEFAULT_FOOTER: FooterSettings = {
         { href: "/dashboard", label: "Vendor Dashboard" },
         { href: "/post-requirement", label: "Post Requirement" },
         { href: "/page/about-us", label: "About Us" },
+        { href: "/blog", label: "Blog" },
       ],
     },
     {
@@ -122,13 +159,17 @@ function IconApple() {
   );
 }
 
-const SOCIAL_ICON_MAP: Record<string, { label: string; Icon: () => ReactElement }> = {
-  x: { label: "Follow on X (Twitter)", Icon: IconX },
-  twitter: { label: "Follow on X (Twitter)", Icon: IconX },
-  linkedin: { label: "Connect on LinkedIn", Icon: IconLinkedIn },
-  instagram: { label: "Follow on Instagram", Icon: IconInstagram },
-  facebook: { label: "Follow on Facebook", Icon: IconFacebook },
-  youtube: { label: "Subscribe on YouTube", Icon: IconYouTube },
+const SOCIAL_ICON_MAP: Record<string, { label: string; Icon: () => ReactElement; bg: string }> = {
+  x: { label: "Follow on X (Twitter)", Icon: IconX, bg: "bg-black" },
+  twitter: { label: "Follow on X (Twitter)", Icon: IconX, bg: "bg-black" },
+  linkedin: { label: "Connect on LinkedIn", Icon: IconLinkedIn, bg: "bg-[#0A66C2]" },
+  instagram: {
+    label: "Follow on Instagram",
+    Icon: IconInstagram,
+    bg: "bg-gradient-to-br from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]",
+  },
+  facebook: { label: "Follow on Facebook", Icon: IconFacebook, bg: "bg-[#1877F2]" },
+  youtube: { label: "Subscribe on YouTube", Icon: IconYouTube, bg: "bg-[#FF0000]" },
 };
 
 export function Footer({
@@ -235,70 +276,30 @@ export function Footer({
       <div className="h-px w-full bg-gradient-to-r from-transparent via-[#FF6C00]/50 to-transparent" />
 
       {/* ══════════════════════════════════════
-          Newsletter + App download strip
+          App download strip
       ══════════════════════════════════════ */}
-      {(newsletterEnabled || appLinks.length > 0) ? (
-      <div className="border-b border-white/[0.06] px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-
-          {/* Newsletter */}
-          {newsletterEnabled ? (
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
-            <div className="shrink-0">
-              <p className="text-sm font-semibold text-white">Stay Ahead of the Market</p>
-              <p className="mt-0.5 text-xs text-neutral-500">
-                Weekly leads, supplier updates &amp; industry news
-              </p>
-            </div>
-            <form
-              className="flex min-w-0 w-full max-w-sm gap-2"
-              action={footer!.newsletter!.actionUrl}
-              method="post"
-              aria-label="Footer newsletter subscription"
+      {appLinks.length > 0 ? (
+      <div className="border-b border-white/[0.06] px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-end gap-2.5">
+          <span className="hidden text-xs text-neutral-600 lg:block">Download&nbsp;App:</span>
+          {appLinks.map(({ label, platform, Icon, href }) => (
+            <a
+              key={platform}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${label} ${platform}`}
+              className="group inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-neutral-400 transition-all hover:border-[#FF6C00]/30 hover:bg-white/[0.08] hover:text-white"
             >
-              <label htmlFor="footer-email" className="sr-only">Email address</label>
-              <input
-                id="footer-email"
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                autoComplete="email"
-                className="h-9 min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.05] px-3 text-sm text-white outline-none placeholder:text-neutral-600 transition-colors focus:border-[#FF6C00]/60 focus:bg-white/[0.08] focus:ring-0"
-              />
-              <button
-                type="submit"
-                className="h-9 shrink-0 rounded-lg bg-[#FF6C00] px-4 text-xs font-bold text-white transition-all hover:bg-[#e85c00] active:scale-[0.97]"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-          ) : null}
-
-          {/* App download */}
-          {appLinks.length > 0 ? (
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="hidden text-xs text-neutral-600 lg:block">Download&nbsp;App:</span>
-            {appLinks.map(({ label, platform, Icon, href }) => (
-              <a
-                key={platform}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${label} ${platform}`}
-                className="group inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-neutral-400 transition-all hover:border-[#FF6C00]/30 hover:bg-white/[0.08] hover:text-white"
-              >
-                <Icon />
-                <span>
-                  <span className="block text-[9px] font-normal leading-none text-neutral-600 group-hover:text-neutral-400 transition-colors">
-                    {label}
-                  </span>
-                  <span className="text-xs font-semibold leading-tight">{platform}</span>
+              <Icon />
+              <span>
+                <span className="block text-[9px] font-normal leading-none text-neutral-600 group-hover:text-neutral-400 transition-colors">
+                  {label}
                 </span>
-              </a>
-            ))}
-          </div>
-          ) : null}
+                <span className="text-xs font-semibold leading-tight">{platform}</span>
+              </span>
+            </a>
+          ))}
         </div>
       </div>
       ) : null}
@@ -307,7 +308,11 @@ export function Footer({
           Main grid
       ══════════════════════════════════════ */}
       <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div
+          className={`grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 ${
+            newsletterEnabled ? "lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]" : "lg:grid-cols-[1.4fr_1fr_1fr_1fr]"
+          }`}
+        >
 
           {/* ── Brand column ── */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
@@ -331,12 +336,16 @@ export function Footer({
             {/* Stats */}
             {data.stats.length > 0 && (
               <div className="mt-5 flex flex-wrap gap-x-6 gap-y-4">
-                {data.stats.map((stat, i) => (
-                  <div key={`${stat.label}-${i}`}>
-                    <p className="text-xl font-bold leading-none text-white">{stat.value}</p>
-                    <p className="mt-0.5 text-xs text-neutral-600">{stat.label}</p>
-                  </div>
-                ))}
+                {data.stats.map((stat, i) => {
+                  const Icon = resolveStatIcon(stat);
+                  return (
+                    <div key={`${stat.label}-${i}`} className="flex flex-col items-start gap-1.5">
+                      <Icon className="size-5 text-[#FF6C00]" aria-hidden />
+                      <p className="text-xl font-bold leading-none text-white">{stat.value}</p>
+                      <p className="text-xs text-neutral-600">{stat.label}</p>
+                    </div>
+                  );
+                })}
               </div>
             )}
 
@@ -347,14 +356,14 @@ export function Footer({
                 Follow us
               </p>
               <div className="flex flex-wrap items-center gap-2">
-                {socialLinks.map(({ href, label, Icon }) => (
+                {socialLinks.map(({ href, label, Icon, bg }) => (
                   <a
                     key={label}
                     href={href}
                     aria-label={label}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-neutral-500 transition-all hover:border-[#FF6C00]/40 hover:bg-[#FF6C00]/10 hover:text-[#FF6C00]"
+                    className={`flex h-9 w-9 items-center justify-center rounded-full text-white transition-transform hover:scale-105 ${bg}`}
                   >
                     <Icon />
                   </a>
@@ -394,34 +403,135 @@ export function Footer({
               </ul>
             </div>
           ))}
+
+          {/* ── Newsletter column ── */}
+          {newsletterEnabled && (
+            <div className="col-span-2 sm:col-span-3 lg:col-span-1">
+              <div className="mb-3.5 flex items-center gap-2">
+                <span className="h-1 w-3 shrink-0 rounded-full bg-[#FF6C00]" aria-hidden />
+                <h4 className="text-[11px] font-bold uppercase tracking-widest text-neutral-500">Newsletter</h4>
+              </div>
+              <p className="text-sm text-neutral-500">
+                Subscribe to get updates on new businesses, tips &amp; offers.
+              </p>
+              <form
+                className="mt-3 flex gap-2"
+                action={footer!.newsletter!.actionUrl}
+                method="post"
+                aria-label="Footer newsletter subscription"
+              >
+                <label htmlFor="footer-email" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="footer-email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  autoComplete="email"
+                  className="h-10 min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.05] px-3 text-sm text-white outline-none placeholder:text-neutral-600 transition-colors focus:border-[#FF6C00]/60 focus:bg-white/[0.08] focus:ring-0"
+                />
+                <button
+                  type="submit"
+                  aria-label="Subscribe"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FF6C00] text-white transition-all hover:bg-[#e85c00] active:scale-[0.97]"
+                >
+                  <Send className="size-4" aria-hidden />
+                </button>
+              </form>
+              <p className="mt-2.5 flex items-center gap-1.5 text-xs text-neutral-600">
+                <Lock className="size-3" aria-hidden />
+                We respect your privacy. Unsubscribe anytime.
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* ── Category / city directory — wide, multi-column sitemap block ── */}
-        {data.directorySections.length > 0 && (
-          <div className="mt-10 grid gap-x-6 gap-y-8 border-t border-white/[0.06] pt-8 sm:grid-cols-2">
-            {data.directorySections.map((section) => (
-              <div key={section.title}>
-                <div className="mb-3.5 flex items-center gap-2">
-                  <span className="h-1 w-3 shrink-0 rounded-full bg-[#FF6C00]" aria-hidden />
-                  <h4 className="text-[11px] font-bold uppercase tracking-widest text-neutral-500">
-                    {section.title}
-                  </h4>
-                </div>
-                <div className="flex flex-wrap gap-x-2 gap-y-2">
-                  {(section.links || []).map((link) => (
-                    <Link
-                      key={`${section.title}-${link.href}`}
-                      href={link.href || "#"}
-                      className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-xs text-neutral-500 transition-colors hover:border-[#FF6C00]/40 hover:text-white"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
+        {/* ── Category / city directory + trust badges — one unified card ── */}
+        {(data.directorySections.length > 0 || TRUST_BADGES.length > 0) && (
+          <div className="mt-10 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6">
+            {data.directorySections.length > 0 && (
+              <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
+                {data.directorySections.map((section) => (
+                  <div key={section.title}>
+                    <div className="mb-3.5 flex items-center gap-2">
+                      <span className="h-1 w-3 shrink-0 rounded-full bg-[#FF6C00]" aria-hidden />
+                      <h4 className="text-[11px] font-bold uppercase tracking-widest text-neutral-500">
+                        {section.title}
+                      </h4>
+                    </div>
+                    <div className="flex flex-wrap gap-x-2 gap-y-2">
+                      {(section.links || []).map((link) => (
+                        <Link
+                          key={`${section.title}-${link.href}`}
+                          href={link.href || "#"}
+                          className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-xs text-neutral-500 transition-colors hover:border-[#FF6C00]/40 hover:text-white"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+
+            {/* ── Trust badges ── */}
+            <div
+              className={`grid grid-cols-2 gap-3 lg:grid-cols-4 ${
+                data.directorySections.length > 0 ? "mt-8 border-t border-white/[0.06] pt-6" : ""
+              }`}
+            >
+              {TRUST_BADGES.map(({ title, description, Icon }) => (
+                <div
+                  key={title}
+                  className="flex items-start gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] p-3"
+                >
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-lg border border-[#FF6C00]/20 bg-[#FF6C00]/10 text-[#ff6c00]">
+                    <Icon className="size-3.5" aria-hidden />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-white">{title}</p>
+                    <p className="mt-0.5 text-[11px] leading-snug text-neutral-500">{description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
+
+        {/* ── Payments & certification badges ── */}
+        <div className="mt-8 flex flex-col gap-6 border-t border-white/[0.06] pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-neutral-500">Secure Payments</p>
+            <div className="flex flex-wrap items-center gap-2">
+              {["Razorpay", "VISA", "Mastercard", "UPI"].map((name) => (
+                <span
+                  key={name}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-semibold text-neutral-400"
+                >
+                  <CreditCard className="size-3.5 text-neutral-500" aria-hidden />
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-neutral-500 sm:text-right">
+              Verified &amp; Certified
+            </p>
+            <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-semibold text-neutral-400">
+                <Lock className="size-3.5 text-emerald-500" aria-hidden />
+                SSL Secure Connection
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-xs font-semibold text-neutral-400">
+                <ShieldCheck className="size-3.5 text-emerald-500" aria-hidden />
+                GDPR Protected
+              </span>
+            </div>
+          </div>
+        </div>
 
         {/* ── Divider ── */}
         <div className="my-8 h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />

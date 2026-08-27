@@ -8,6 +8,7 @@ import { VerifiedBadge } from "@/components/business/VerifiedBadge";
 import { TrackedProfileLink } from "@/components/business/TrackedProfileLink";
 import { SaveBusinessButton } from "@/components/business/SaveBusinessButton";
 import { buildListingsCityPath } from "@/lib/listings-url";
+import { getBusinessProfilePath } from "@/lib/business-url";
 import { getSimilarBusinesses } from "@/lib/api/business";
 import { getBusinessHeroImageUrl, truncate } from "@/lib/utils";
 import type { Business } from "@/types";
@@ -30,13 +31,14 @@ function SimilarCard({ business }: { business: Business }) {
   const roleLabel = business.marketplaceType ? ROLE_LABELS[business.marketplaceType] : null;
   const city = business.city || business.area;
   const businessId = String(business._id);
+  const profilePath = getBusinessProfilePath(business);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#ff6c00]/30 hover:shadow-md">
       {/* Image area */}
       <TrackedProfileLink
         businessId={businessId}
-        href={`/business/${businessId}`}
+        href={profilePath}
         tracking={{ source: "listing" }}
         className="relative block h-40 shrink-0 overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-200"
       >
@@ -79,7 +81,7 @@ function SimilarCard({ business }: { business: Business }) {
         <div className="min-w-0">
           <TrackedProfileLink
             businessId={businessId}
-            href={`/business/${businessId}`}
+            href={profilePath}
             tracking={{ source: "listing" }}
           >
             <h3 className="truncate text-sm font-bold text-neutral-800 transition-colors group-hover:text-[#ff6c00]">
@@ -117,7 +119,7 @@ function SimilarCard({ business }: { business: Business }) {
         </div>
 
         <Button
-          href={`/business/${businessId}`}
+          href={profilePath}
           variant="outline"
           size="sm"
           className="mt-auto w-full border-[#ff6c00]/30 text-[#ff6c00] hover:bg-[#ff6c00] hover:text-white"

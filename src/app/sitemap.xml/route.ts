@@ -7,6 +7,8 @@ import {
   getCityCategorySubCategorySitemapEntries,
   getCategorySitemapEntries,
   getProductSitemapEntries,
+  getFlatCategoryCitySitemapEntries,
+  getFlatSubCategoryCitySitemapEntries,
 } from "@/lib/sitemap-entries";
 import { buildSitemapIndex, buildUrlSet, SITEMAP_XML_HEADERS } from "@/lib/sitemap-xml";
 import { SITE_URL } from "@/lib/constants";
@@ -31,13 +33,24 @@ export async function GET() {
     });
   }
 
-  const [cmsPages, stateEntries, cityCategoryEntries, cityCategorySubCategoryEntries, categoryEntries, productEntries] = await Promise.all([
+  const [
+    cmsPages,
+    stateEntries,
+    cityCategoryEntries,
+    cityCategorySubCategoryEntries,
+    categoryEntries,
+    productEntries,
+    flatCategoryCityEntries,
+    flatSubCategoryCityEntries,
+  ] = await Promise.all([
     fetchSitemapCorePages(),
     getStateSitemapEntries(),
     getCityCategorySitemapEntries(),
     getCityCategorySubCategorySitemapEntries(),
     getCategorySitemapEntries(),
     getProductSitemapEntries(),
+    getFlatCategoryCitySitemapEntries(),
+    getFlatSubCategoryCitySitemapEntries(),
   ]);
   const urls = [
     ...STATIC_SITEMAP_ROUTES,
@@ -46,6 +59,8 @@ export async function GET() {
     ...cityCategorySubCategoryEntries,
     ...categoryEntries,
     ...productEntries,
+    ...flatCategoryCityEntries,
+    ...flatSubCategoryCityEntries,
     ...cmsPages.map(mapPathToSitemapUrl),
   ];
   return new Response(buildUrlSet(urls), { headers: SITEMAP_XML_HEADERS });

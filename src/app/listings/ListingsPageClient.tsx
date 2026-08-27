@@ -79,6 +79,7 @@ export function ListingsPageClient({
   pathCategorySlug,
   pathSubCategoryId,
   pathSubCategorySlug,
+  pathMarketplaceType,
   pathPage,
   initialSubcategories = [],
   initialPopularSearches = [],
@@ -96,6 +97,7 @@ export function ListingsPageClient({
   pathCategorySlug?: string;
   pathSubCategoryId?: string;
   pathSubCategorySlug?: string;
+  pathMarketplaceType?: string;
   pathPage?: number;
   initialSubcategories?: SubCategory[];
   initialPopularSearches?: string[];
@@ -120,7 +122,9 @@ export function ListingsPageClient({
   const [verifiedOnly, setVerifiedOnly] = useState(searchParams.get("isVerified") === "true");
   const [featuredOnly, setFeaturedOnly] = useState(searchParams.get("isFeatured") === "true");
   const [bulkOnly, setBulkOnly] = useState(searchParams.get("acceptsBulkOrders") === "true");
-  const [marketplaceType, setMarketplaceType] = useState(searchParams.get("marketplaceType") || "");
+  const [marketplaceType, setMarketplaceType] = useState(
+    pathMarketplaceType || searchParams.get("marketplaceType") || ""
+  );
   const [sellerIntent, setSellerIntent] = useState(searchParams.get("sellerIntent") || "");
   const [page, setPage] = useState(pathPage || Number(searchParams.get("page")) || 1);
   const [nearMe, setNearMe] = useState(initialNearMe);

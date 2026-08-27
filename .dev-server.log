@@ -1,0 +1,71 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3000
+   - Network:      http://172.24.224.1:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 13.7s
+ ○ Compiling / ...
+ ✓ Compiled / in 15.7s (4890 modules)
+ GET / 200 in 19447ms
+ ○ Compiling /blog/[slug] ...
+ ✓ Compiled /blog/[slug] in 4.1s (4914 modules)
+ GET /blog/the-future-of-b2b-e-commerce-in-india-key-trends-for-2026 200 in 6506ms
+ ○ Compiling /blog ...
+ ✓ Compiled /blog in 1575ms (4905 modules)
+ GET /blog 200 in 2582ms
+ ○ Compiling /manifest.webmanifest ...
+ GET /blog/the-future-of-b2b-e-commerce-in-india-key-trends-for-2026 200 in 2244ms
+ ✓ Compiled /manifest.webmanifest in 4.2s (4927 modules)
+ GET /manifest.webmanifest 200 in 4850ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 947ms (2713 modules)
+ GET /favicon.ico 200 in 1687ms
+ ✓ Compiled in 10.9s (4825 modules)
+ ✓ Compiled in 3.1s (4825 modules)
+ ✓ Compiled in 14.2s (4825 modules)
+ ✓ Compiled in 2.7s (2230 modules)
+ ✓ Compiled in 2s (2230 modules)
+ ✓ Compiled in 3s (2230 modules)
+ ✓ Compiled in 1250ms (2230 modules)
+ ✓ Compiled in 751ms (2230 modules)
+ ✓ Compiled in 1077ms (2230 modules)
+ ✓ Compiled in 843ms (2230 modules)
+ ✓ Compiled in 774ms (2230 modules)
+ ✓ Compiled in 22.4s (4821 modules)
+ ✓ Compiled in 4.5s (4821 modules)
+ ✓ Compiled in 2.4s (4821 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\orchids-samajh-gaya-main\frontend\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\orchids-samajh-gaya-main\frontend\.next\cache\webpack\client-development\0.pack.gz'
+ ✓ Compiled in 8.9s (4821 modules)
+ ✓ Compiled in 978ms (2228 modules)
+ ✓ Compiled in 914ms (2228 modules)
+ ✓ Compiled in 653ms (2228 modules)
+ ✓ Compiled in 893ms (2228 modules)
+ ✓ Compiled in 560ms (2228 modules)
+ ✓ Compiled in 1139ms (2228 modules)
+ ✓ Compiled in 1135ms (2228 modules)
+ ✓ Compiled in 778ms (2228 modules)
+ ✓ Compiled in 1025ms (2228 modules)
+ ✓ Compiled in 1942ms (2228 modules)
+ ✓ Compiled in 1789ms (2228 modules)
+ ✓ Compiled in 2.9s (4821 modules)
+ ✓ Compiled in 4.8s (4822 modules)
+ ✓ Compiled in 5.4s (4822 modules)
+ ✓ Compiled in 2.6s (4822 modules)
+ ✓ Compiled in 9.3s (4825 modules)
+ ✓ Compiled in 6.1s (4825 modules)
+ ✓ Compiled in 10.8s (4825 modules)
+ ✓ Compiled in 7.9s (4825 modules)
+ ✓ Compiled in 4.8s (4825 modules)
+ ✓ Compiled in 8.9s (4825 modules)
+ ✓ Compiled in 3.4s (4825 modules)
+ ✓ Compiled in 2.9s (4825 modules)
+ ✓ Compiled in 11.4s (4825 modules)
+ ✓ Compiled in 4.4s (4825 modules)
+ ✓ Compiled in 3.4s (4825 modules)
+ ✓ Compiled in 19.4s (4825 modules)
+ ✓ Compiled in 11.4s (4825 modules)

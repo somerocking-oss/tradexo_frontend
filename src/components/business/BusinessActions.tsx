@@ -46,6 +46,7 @@ export function BusinessActions({ business }: { business: Business }) {
         )}
         <ShareBusinessButton
           businessId={businessId}
+          businessSlug={business.slug}
           businessName={business.name}
           city={business.city}
         />

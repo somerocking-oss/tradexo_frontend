@@ -6,6 +6,7 @@ import {
 } from "@/lib/listings-url";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import type { OnPageSeoSettings } from "@/lib/cms";
+import { getBusinessProfilePath } from "@/lib/business-url";
 
 export function getParam(
   params: Record<string, string | string[] | undefined>,
@@ -24,6 +25,22 @@ export function applySeoTemplate(
   return template.replace(/\{(\w+)\}/g, (_, key: string) => vars[key] ?? "");
 }
 
+/** Product categories (Automotive & Spares) read naturally as "Manufacturers,
+ *  Suppliers & Wholesalers"; service categories (Legal & Professional
+ *  Services) don't — they read as "Providers & Companies" instead. Driven by
+ *  the category's own curated marketplaceVertical/buyerIntent, not guessed
+ *  from its name. */
+export function isCategoryProductLed(category?: {
+  marketplaceVertical?: string;
+  buyerIntent?: string;
+}) {
+  if (!category) return true;
+  return (
+    category.marketplaceVertical === "b2b_product" ||
+    (category.marketplaceVertical === "hybrid" && category.buyerIntent === "buy")
+  );
+}
+
 export function buildListingsSeo(
   params: Record<string, string | string[] | undefined>,
   onPage?: OnPageSeoSettings,
@@ -33,11 +50,18 @@ export function buildListingsSeo(
   const city = getParam(params, "city");
   const categoryName = getParam(params, "categoryName");
   const categorySlug = getParam(params, "categorySlug") || getParam(params, "category");
+  const categoryMetaTitle = getParam(params, "categoryMetaTitle");
+  const categoryMetaDescription = getParam(params, "categoryMetaDescription");
+  const categoryIsProductLed = getParam(params, "categoryIsProductLed") !== "false";
+  const categoryBusinessCount = Number(getParam(params, "categoryBusinessCount") || "-1");
   const subCategoryName = getParam(params, "subCategoryName");
   const subCategorySlug =
     getParam(params, "subCategorySlug") ||
     getParam(params, "subcategory") ||
     getParam(params, "subCategory");
+  const roleSlug = getParam(params, "roleSlug");
+  const roleLabel = getParam(params, "roleLabel");
+  const roleBusinessCount = Number(getParam(params, "roleBusinessCount") || "-1");
   const page = Number(getParam(params, "page") || "1");
   const nearMe = getParam(params, "nearMe") === "true";
   const view = getParam(params, "view");
@@ -48,6 +72,14 @@ export function buildListingsSeo(
   const cityLabel = city ? titleCase(city) : "";
   const categoryLabel = categoryName ? titleCase(categoryName) : "";
   const subCategoryLabel = subCategoryName ? titleCase(subCategoryName) : "";
+  // Product categories ("Automotive & Spares") read naturally as
+  // "Manufacturers, Wholesalers & Suppliers"; service categories ("Legal &
+  // Professional Services") don't — they read as "Providers & Companies".
+  const supplierPhrase = categoryIsProductLed
+    ? "Manufacturers, Wholesalers & Suppliers"
+    : "Providers & Companies";
+  const supplierNoun = categoryIsProductLed ? "Suppliers" : "Providers";
+  const supplierVerb = categoryIsProductLed ? "manufacturers and wholesale suppliers" : "providers and companies";
   const vars = {
     keyword: keywordLabel,
     city: cityLabel,
@@ -90,9 +122,15 @@ export function buildListingsSeo(
       `Find verified ${keywordLabel} manufacturers and wholesale suppliers in ${cityLabel}. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`
     );
   } else if (city && categoryLabel) {
-    title = `Top ${categoryLabel} Manufacturers, Wholesalers & Suppliers in ${cityLabel}`;
-    h1 = `Verified ${categoryLabel} Suppliers in ${cityLabel}`;
-    description = `Find verified ${categoryLabel} manufacturers and wholesale suppliers in ${cityLabel}. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`;
+    title = categoryIsProductLed
+      ? `${categoryLabel} Suppliers in ${cityLabel} | Manufacturers & Wholesalers`
+      : `${categoryLabel} in ${cityLabel} | Companies & Service Providers`;
+    h1 = `Verified ${categoryLabel} ${supplierNoun} in ${cityLabel}`;
+    description = `Find verified ${categoryLabel} ${supplierVerb} in ${cityLabel}. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`;
+  } else if (city && roleLabel) {
+    title = `${roleLabel} in ${cityLabel}`;
+    h1 = title;
+    description = `Find verified ${roleLabel.toLowerCase()} in ${cityLabel}. Compare businesses, view contact details and connect directly on ${siteName}.`;
   } else if (keyword) {
     title = applySeoTemplate(
       listings?.keywordTitle,
@@ -106,24 +144,34 @@ export function buildListingsSeo(
       `Find verified ${keywordLabel} manufacturers and wholesale suppliers across India. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`
     );
   } else if (city) {
-    title = applySeoTemplate(listings?.cityTitle, vars, `Businesses in ${cityLabel}`);
+    title = applySeoTemplate(
+      listings?.cityTitle,
+      vars,
+      `Businesses, Suppliers & Manufacturers in ${cityLabel}`
+    );
     h1 = title;
     description = applySeoTemplate(
       listings?.cityDescription,
       vars,
-      `Browse verified businesses, suppliers and services in ${cityLabel} on ${siteName}.`
+      `Find manufacturers, suppliers, wholesalers, service providers and businesses in ${cityLabel}. Discover verified businesses and connect directly on ${siteName}.`
     );
   } else if (categoryLabel && subCategoryLabel) {
-    title = `Top ${subCategoryLabel} Manufacturers, Wholesalers & Suppliers`;
-    h1 = `Verified ${subCategoryLabel} Suppliers — ${categoryLabel}`;
-    description = `Find verified ${subCategoryLabel} manufacturers and wholesale suppliers under ${categoryLabel} across India. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`;
+    title = `Top ${subCategoryLabel} ${supplierPhrase}`;
+    h1 = `Verified ${subCategoryLabel} ${supplierNoun} — ${categoryLabel}`;
+    description = `Find verified ${subCategoryLabel} ${supplierVerb} under ${categoryLabel} across India. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`;
   } else if (categoryLabel) {
-    title = `Top ${categoryLabel} Manufacturers, Wholesalers & Suppliers`;
-    h1 = `Verified ${categoryLabel} Suppliers`;
-    description = `Find verified ${categoryLabel} manufacturers and wholesale suppliers across India. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`;
+    title = categoryMetaTitle || `${categoryLabel} ${supplierPhrase} in India`;
+    h1 = `Verified ${categoryLabel} ${supplierNoun} in India`;
+    description =
+      categoryMetaDescription ||
+      `Find verified ${categoryLabel} ${supplierVerb} across India. Get latest price quotes, contact numbers, and addresses instantly on ${siteName}.`;
+  } else if (roleLabel) {
+    title = `${roleLabel} in India`;
+    h1 = title;
+    description = `Find verified ${roleLabel.toLowerCase()} across India. Compare businesses, view contact details and connect directly on ${siteName}.`;
   }
 
-  if (keyword || city || categoryLabel || subCategoryLabel) {
+  if (keyword || city || categoryLabel || subCategoryLabel || roleLabel) {
     subtitle = applySeoTemplate(
       listings?.filteredSubtitle,
       vars,
@@ -136,6 +184,7 @@ export function buildListingsSeo(
     city,
     categorySlug: categorySlug || undefined,
     subCategorySlug: subCategorySlug || undefined,
+    roleSlug: roleSlug || undefined,
     nearMe,
     viewMode: view === "map" ? "map" : "list",
     radiusKm: nearMe ? radiusKm : undefined,
@@ -157,13 +206,27 @@ export function buildListingsSeo(
     !!getParam(params, "sellerIntent"),
   ].filter(Boolean).length;
 
+  // Category×city combo pages are the combinatorial-explosion risk (76
+  // categories × 179 cities) — only index the ones with enough real
+  // businesses to be a genuinely useful page. categoryBusinessCount is -1
+  // (the "not provided" sentinel) on page types that never pass it, e.g.
+  // category-only or city-only pages, which aren't subject to this rule.
+  const isThinComboPage =
+    !!city && !!categoryLabel && categoryBusinessCount >= 0 && categoryBusinessCount < 5;
+
+  // Same threshold applied to role pages, with or without a city
+  // (/manufacturers, /manufacturers-in-{city}) — unlike categories, role
+  // data (marketplaceType) is sparsely populated today, so even the
+  // nationwide role pages can be genuinely thin right now.
+  const isThinRolePage = !!roleLabel && roleBusinessCount >= 0 && roleBusinessCount < 5;
+
   return {
     title,
     description,
     canonical,
     h1,
     subtitle,
-    noIndex: page > 1 || secondaryFilterCount >= 2,
+    noIndex: page > 1 || secondaryFilterCount >= 2 || isThinComboPage || isThinRolePage,
   };
 }
 
@@ -377,8 +440,46 @@ export function buildBreadcrumbJsonLd(items: Array<{ name: string; url: string }
   };
 }
 
+export function buildArticleJsonLd(article: {
+  title: string;
+  description?: string;
+  url: string;
+  image?: string;
+  publishedAt?: string | null;
+  updatedAt?: string;
+  category?: string;
+  siteName?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.description,
+    image: article.image ? [article.image] : undefined,
+    datePublished: article.publishedAt || undefined,
+    dateModified: article.updatedAt || article.publishedAt || undefined,
+    articleSection: article.category || undefined,
+    mainEntityOfPage: { "@type": "WebPage", "@id": article.url },
+    publisher: {
+      "@type": "Organization",
+      name: article.siteName || SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+}
+
+export function buildCollectionPageJsonLd(name: string, description: string, url: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name,
+    description,
+    url,
+  };
+}
+
 export function buildItemListJsonLd(
-  businesses: Array<{ _id?: string; name?: string }>,
+  businesses: Array<{ _id?: string; name?: string; slug?: string }>,
   listName: string,
   listUrl: string
 ) {
@@ -392,7 +493,7 @@ export function buildItemListJsonLd(
       "@type": "ListItem",
       position: index + 1,
       name: business.name,
-      url: `${SITE_URL}/business/${business._id}`,
+      url: `${SITE_URL}${getBusinessProfilePath({ _id: business._id || "", slug: business.slug })}`,
     })),
   };
 }
@@ -464,6 +565,8 @@ export function buildListingsSearchParams(
   const nearMe = getParam(params, "nearMe") === "true";
   const radiusKm = Number(getParam(params, "radiusKm") || String(DEFAULT_NEAR_ME_RADIUS_KM));
   const view = getParam(params, "view");
+  const roleSlug = getParam(params, "roleSlug");
+  const roleLabel = getParam(params, "roleLabel");
 
   return {
     keyword,
@@ -474,6 +577,8 @@ export function buildListingsSearchParams(
     subCategoryId,
     subCategorySlug,
     subCategoryName,
+    roleSlug,
+    roleLabel,
     sort,
     page,
     nearMe,

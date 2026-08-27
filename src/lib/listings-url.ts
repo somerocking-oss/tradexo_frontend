@@ -10,11 +10,11 @@ export function cityToSlug(city: string) {
 }
 
 export function buildListingsCityPath(city: string) {
-  return `/listings/in/${cityToSlug(city)}`;
+  return `/city/${cityToSlug(city)}`;
 }
 
 export function buildListingsCategoryPath(categorySlug: string, subCategorySlug?: string) {
-  const base = `/listings/category/${categorySlug.trim().toLowerCase()}`;
+  const base = `/category/${categorySlug.trim().toLowerCase()}`;
   if (subCategorySlug?.trim()) {
     return `${base}/${subCategorySlug.trim().toLowerCase()}`;
   }
@@ -26,11 +26,62 @@ export function buildListingsCityCategoryPath(
   categorySlug: string,
   subCategorySlug?: string
 ) {
-  const base = `/listings/in/${cityToSlug(city)}/${categorySlug.trim().toLowerCase()}`;
+  const base = `/city/${cityToSlug(city)}/${categorySlug.trim().toLowerCase()}`;
   if (subCategorySlug?.trim()) {
     return `${base}/${subCategorySlug.trim().toLowerCase()}`;
   }
   return base;
+}
+
+export const FLAT_SUPPLIERS_SLUG_MARKER = "-suppliers-in-";
+
+/** Long-tail landing page URL, e.g. `/automotive-spares-suppliers-in-delhi`.
+ *  Its canonical tag points back to the nested `/city/{city}/{slug}` page
+ *  (see buildListingsCityCategoryPath) — this is an additional crawl entry
+ *  point, not a second copy of the canonical URL. */
+export function buildFlatSuppliersPath(subjectSlug: string, city: string) {
+  return `/${subjectSlug.trim().toLowerCase()}${FLAT_SUPPLIERS_SLUG_MARKER}${cityToSlug(city)}`;
+}
+
+/** Parses `/{category-or-subcategory}-suppliers-in-{city}` — returns null for
+ *  any single-segment slug that doesn't contain the marker. */
+export function parseFlatSuppliersSlug(flatSlug: string) {
+  const idx = flatSlug.lastIndexOf(FLAT_SUPPLIERS_SLUG_MARKER);
+  if (idx <= 0) return null;
+
+  const subjectSlug = flatSlug.slice(0, idx);
+  const citySlug = flatSlug.slice(idx + FLAT_SUPPLIERS_SLUG_MARKER.length);
+  if (!subjectSlug || !citySlug) return null;
+
+  return { subjectSlug, citySlug };
+}
+
+/** Business role pages — a filter dimension orthogonal to category/city,
+ *  driven by Business.marketplaceType. */
+export const BUSINESS_ROLES = [
+  { slug: "suppliers", marketplaceType: "b2b_supplier", label: "Suppliers" },
+  { slug: "manufacturers", marketplaceType: "manufacturer", label: "Manufacturers" },
+  { slug: "wholesalers", marketplaceType: "wholesaler", label: "Wholesalers" },
+] as const;
+
+export type BusinessRole = (typeof BUSINESS_ROLES)[number];
+
+export function getBusinessRoleBySlug(slug: string): BusinessRole | undefined {
+  return BUSINESS_ROLES.find((role) => role.slug === slug);
+}
+
+export function buildRolePath(roleSlug: string, city?: string) {
+  return city ? `/${roleSlug}-in-${cityToSlug(city)}` : `/${roleSlug}`;
+}
+
+/** Parses `/{suppliers|manufacturers|wholesalers}-in-{city}` — distinct from
+ *  parseFlatSuppliersSlug's `-suppliers-in-` marker (no leading hyphen here,
+ *  so "suppliers-in-delhi" never collides with
+ *  "automotive-spares-suppliers-in-delhi"). */
+export function parseRoleCitySlug(flatSlug: string) {
+  const match = flatSlug.match(/^(suppliers|manufacturers|wholesalers)-in-(.+)$/);
+  if (!match) return null;
+  return { roleSlug: match[1], citySlug: match[2] };
 }
 
 /**
@@ -44,12 +95,12 @@ function stripPagePathSuffix(pathname: string) {
 }
 
 export function isListingsCityCategoryPath(pathname: string) {
-  return /^\/listings\/in\/[^/]+\/[^/]/.test(stripPagePathSuffix(pathname));
+  return /^\/city\/[^/]+\/[^/]/.test(stripPagePathSuffix(pathname));
 }
 
 export function parseListingsCityCategoryPath(pathname: string) {
   const match = stripPagePathSuffix(pathname).match(
-    /^\/listings\/in\/([^/]+)\/([^/]+)(?:\/([^/?]+))?/
+    /^\/city\/([^/]+)\/([^/]+)(?:\/([^/?]+))?/
   );
   if (!match) return { citySlug: "", categorySlug: "", subCategorySlug: "" };
   return {
@@ -61,7 +112,7 @@ export function parseListingsCityCategoryPath(pathname: string) {
 
 export function parseListingsCategoryPath(pathname: string) {
   const match = stripPagePathSuffix(pathname).match(
-    /^\/listings\/category\/([^/]+)(?:\/([^/?]+))?/
+    /^\/category\/([^/]+)(?:\/([^/?]+))?/
   );
   if (!match) return { categorySlug: "", subCategorySlug: "" };
   return {
@@ -71,7 +122,7 @@ export function parseListingsCategoryPath(pathname: string) {
 }
 
 export function isListingsCategoryPath(pathname: string) {
-  return pathname.startsWith("/listings/category/");
+  return pathname.startsWith("/category/");
 }
 
 export function categoryToSlug(category: { slug?: string; name: string }) {
@@ -382,11 +433,32 @@ export function buildListingsCanonical(options: {
   city?: string;
   categorySlug?: string;
   subCategorySlug?: string;
+  roleSlug?: string;
   nearMe?: boolean;
   viewMode?: "grid" | "list" | "map";
   radiusKm?: number;
   page?: number;
 }) {
+  // City×category combo pages canonicalize to the flat long-tail URL
+  // (/{category}-suppliers-in-{city}) instead of the nested hierarchy —
+  // the flat URL is the one meant to rank. Only page 1 has a flat
+  // equivalent; paginated pages stay self-referential to the nested URL.
+  if (options.city && options.categorySlug && !options.keyword && !options.nearMe) {
+    const page = options.page ?? 1;
+    if (page <= 1) {
+      return buildFlatSuppliersPath(options.subCategorySlug || options.categorySlug, options.city);
+    }
+  }
+
+  // Role pages (/suppliers, /manufacturers-in-{city}, ...) — self-canonical,
+  // page 1 only (same constraint as the category×city flat pages above).
+  if (options.roleSlug && !options.categorySlug && !options.keyword && !options.nearMe) {
+    const page = options.page ?? 1;
+    if (page <= 1) {
+      return buildRolePath(options.roleSlug, options.city);
+    }
+  }
+
   return buildListingsUrl({
     keyword: options.keyword,
     city: options.city,
@@ -435,7 +507,7 @@ export function getListingsSeoRedirect(
     return null;
   }
 
-  // city + category slug → clean path /listings/in/city/category
+  // city + category slug → clean path /city/city/category
   if (city && categorySlug) {
     return buildListingsUrl({
       city,

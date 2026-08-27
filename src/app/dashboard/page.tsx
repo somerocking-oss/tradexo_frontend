@@ -30,6 +30,7 @@ import { exportAnalyticsSummary } from "@/lib/export-csv";
 import { extractBusinessList, getMyBusinesses } from "@/lib/api/business";
 import { extractLeadList, getLeadBusinessName, getMyLeads } from "@/lib/api/lead";
 import type { Business, Lead } from "@/types";
+import { getBusinessProfilePath } from "@/lib/business-url";
 
 function getBusinessKey(business: Business, index: number) {
   return String(business._id || business.slug || `${business.name}-${business.city}-${index}`);
@@ -245,7 +246,7 @@ function DashboardContent() {
                   <li key={getBusinessKey(b, index)} className="rounded-xl border border-slate-200 p-4">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <Link href={`/business/${b._id}`} className="font-semibold text-[#e86200] hover:underline">
+                        <Link href={getBusinessProfilePath(b)} className="font-semibold text-[#e86200] hover:underline">
                           {b.name}
                         </Link>
                         <p className="text-xs text-slate-500">{b.city}</p>
@@ -285,7 +286,7 @@ function DashboardContent() {
                       <Button href={`/dashboard/business/${b._id}/kyc`} size="sm" variant="outline">
                         <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> KYC
                       </Button>
-                      <Button href={`/business/${b._id}`} size="sm" variant="ghost">
+                      <Button href={getBusinessProfilePath(b)} size="sm" variant="ghost">
                         <ExternalLink className="h-3.5 w-3.5" aria-hidden /> View
                       </Button>
                     </div>

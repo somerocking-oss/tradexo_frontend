@@ -1,3 +1,11 @@
+// Enforced at the registration wizard (not the backend schema, to avoid
+// breaking re-saves of already-thin legacy listings) — the previous
+// non-empty-only check let listings publish with placeholder text like
+// "test" or "mmm" as their entire description.
+export const MIN_SHORT_DESCRIPTION_LENGTH = 40;
+export const MIN_FULL_DESCRIPTION_LENGTH = 200;
+export const RECOMMENDED_FULL_DESCRIPTION_LENGTH = 500;
+
 export type ProviderType = "service" | "product";
 
 export type ProductRole =
@@ -132,6 +140,7 @@ export const REGISTRATION_STEPS = [
   { id: 6, title: "About Business", short: "About" },
   { id: 7, title: "Your Products", short: "Products" },
   { id: 8, title: "Photos & Logo", short: "Photos" },
+  { id: 9, title: "Preview & Publish", short: "Preview" },
 ] as const;
 
 function defaultDaySchedule(): DaySchedule {
@@ -422,9 +431,19 @@ export function validateStep(step: number, draft: BusinessRegistrationDraft): st
         }
       }
       return null;
-    case 6:
-      if (!draft.shortDescription.trim()) return "Short description is required";
+    case 6: {
+      const shortLen = draft.shortDescription.trim().length;
+      const fullLen = draft.description.trim().length;
+      if (!shortLen) return "Short description is required";
+      if (shortLen < MIN_SHORT_DESCRIPTION_LENGTH) {
+        return `Short description must be at least ${MIN_SHORT_DESCRIPTION_LENGTH} characters — write a real sentence, not a placeholder`;
+      }
+      if (!fullLen) return "Full description is required";
+      if (fullLen < MIN_FULL_DESCRIPTION_LENGTH) {
+        return `Full description must be at least ${MIN_FULL_DESCRIPTION_LENGTH} characters — buyers (and Google) need enough detail to trust this listing`;
+      }
       return null;
+    }
     case 7:
       return null;
     case 8:

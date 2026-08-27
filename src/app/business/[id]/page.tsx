@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { BusinessProfileHero } from "@/components/business/BusinessProfileHero";
 import { BusinessProfileTabs, type ProfileTab } from "@/components/business/BusinessProfileTabs";
@@ -65,14 +65,28 @@ export async function generateMetadata({
     | undefined;
 
   const citySuffix = business.city ? ` in ${business.city}` : "";
+  const categoryName =
+    business.primaryCategory && typeof business.primaryCategory === "object"
+      ? business.primaryCategory.name
+      : undefined;
+  const categoryCityLabel = categoryName
+    ? `${categoryName}${citySuffix}`
+    : business.city
+      ? `Business in ${business.city}`
+      : undefined;
   const title =
     seo?.metaTitle ||
-    `${business.name}${citySuffix} - Contact Number, Address, Price Quotes`;
+    (categoryCityLabel
+      ? `${business.name} | ${categoryCityLabel}`
+      : `${business.name} - Contact Number, Address, Price Quotes`);
   const realSummary = business.shortDescription || business.description?.slice(0, 120);
+  const categoryArticle = /^[aeiou]/i.test(categoryName || "verified") ? "an" : "a";
   const description =
     seo?.metaDescription ||
-    (realSummary ? `${realSummary} ` : "") +
-      `Contact ${business.name}${citySuffix} for bulk orders. Get phone number, full address, user reviews, and top deals on ${SITE_NAME}.`;
+    (realSummary
+      ? `${realSummary} `
+      : `Explore ${business.name}, ${categoryArticle} ${categoryName || "verified"} business${citySuffix}. `) +
+      `View services, products, location and contact details on ${SITE_NAME}.`;
 
   return {
     title,
@@ -108,6 +122,11 @@ export default async function BusinessPage({
     fetchSiteSettings(),
   ]);
   if (!business) notFound();
+
+  // Canonicalize legacy ID-based URLs to the SEO-friendly slug once one exists.
+  if (business.slug && id !== business.slug) {
+    permanentRedirect(getBusinessProfilePath(business));
+  }
 
   const rating = business.averageRating ?? business.rating ?? 0;
   const image = getBusinessHeroImageUrl(business);

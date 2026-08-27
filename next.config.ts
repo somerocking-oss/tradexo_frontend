@@ -87,6 +87,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/listings/category/:path*",
+        destination: "/category/:path*",
+        permanent: true,
+      },
+      {
+        source: "/listings/in/:path*",
+        destination: "/city/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

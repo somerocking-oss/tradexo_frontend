@@ -14,6 +14,7 @@ import { StepBusinessHours } from "@/components/register/StepBusinessHours";
 import { StepAbout } from "@/components/register/StepAbout";
 import { StepProducts } from "@/components/register/StepProducts";
 import { StepMedia } from "@/components/register/StepMedia";
+import { StepPreview } from "@/components/register/StepPreview";
 import { useAuth } from "@/context/AuthContext";
 import { fetchAllCategories, filterCategoriesForProvider } from "@/lib/api/category";
 import { createBusiness, checkDuplicateBusiness } from "@/lib/api/business";
@@ -41,6 +42,7 @@ const STEP_HINTS: Record<number, string> = {
   6: "Description, tags and SEO-friendly summary",
   7: "Add the products you sell — buyers can browse and get quotes",
   8: "Logo, banner and gallery photos",
+  9: "Review your listing exactly as buyers will see it",
 };
 
 function StepActions({
@@ -121,7 +123,7 @@ function StepActions({
           </Button>
         ) : (
           <Button type="button" size="lg" onClick={onSubmit} loading={submitting}>
-            Submit Listing
+            Publish Listing
           </Button>
         )}
       </div>
@@ -398,6 +400,9 @@ export function RegisterBusinessForm({ registeredToday = 0 }: { registeredToday?
                     onBannerChange={setBanner}
                     onImagesChange={setImages}
                   />
+                )}
+                {currentStepId === 9 && (
+                  <StepPreview draft={draft} categories={categories} banner={banner} />
                 )}
 
                 {error && (

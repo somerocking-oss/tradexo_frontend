@@ -7,6 +7,7 @@ import { Building2, Mic, Search } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getSearchAutocomplete, type SearchSuggestion } from "@/lib/api/search";
 import { buildListingsUrl } from "@/lib/listings-url";
+import { getBusinessProfilePath } from "@/lib/business-url";
 import { cn } from "@/lib/utils";
 
 interface SpeechRecognitionResultLike {
@@ -174,7 +175,7 @@ export function SearchAutocomplete({
           {suggestions.map((item) => (
             <Link
               key={item._id}
-              href={`/business/${item._id}`}
+              href={getBusinessProfilePath(item)}
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 border-t border-slate-50 px-4 py-3 text-sm transition first:border-t-0 hover:bg-[#e8e8e8]"
             >

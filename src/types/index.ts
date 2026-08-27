@@ -57,6 +57,8 @@ export interface Category {
   buyerIntent?: "hire" | "buy" | "quote" | "discover";
   supportsRfq?: boolean;
   supportsLocalSearch?: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
   isFeatured?: boolean;
   isTrending?: boolean;
   showOnHomepage?: boolean;

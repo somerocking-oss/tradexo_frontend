@@ -1,8 +1,10 @@
 import {
   buildBreadcrumbJsonLd,
+  buildCollectionPageJsonLd,
   buildItemListJsonLd,
   buildListingsSearchParams,
   buildListingsSeo,
+  isCategoryProductLed,
 } from "@/lib/seo";
 import { searchBusinessesServerWithMeta, getTrendingSearchesServer } from "@/lib/api/business-server";
 import { fetchSiteSettings } from "@/lib/cms";
@@ -36,6 +38,9 @@ async function resolveCategoryParams(
         categoryId: category._id,
         categorySlug: category.slug || categorySlug,
         categoryName: category.name,
+        categoryMetaTitle: category.metaTitle || "",
+        categoryMetaDescription: category.metaDescription || "",
+        categoryIsProductLed: String(isCategoryProductLed(category)),
       };
     }
   }
@@ -54,6 +59,9 @@ async function resolveCategoryParams(
         ...params,
         categorySlug: category.slug,
         categoryName: category.name,
+        categoryMetaTitle: category.metaTitle || "",
+        categoryMetaDescription: category.metaDescription || "",
+        categoryIsProductLed: String(isCategoryProductLed(category)),
       };
     }
   }
@@ -225,7 +233,7 @@ export async function loadListingsPageData(
       name: seo.h1,
       url: `${SITE_URL}${buildListingsCategoryPath(filters.categorySlug)}`,
     });
-  } else if (filters.keyword || filters.city || filters.categorySlug) {
+  } else if (filters.keyword || filters.city || filters.categorySlug || filters.roleSlug) {
     breadcrumbItems.push({ name: seo.h1, url: seo.canonical });
   }
 
@@ -234,6 +242,11 @@ export async function loadListingsPageData(
   const itemListJsonLd =
     onPage?.schema?.enableItemList !== false && initialBusinesses.length > 0
       ? buildItemListJsonLd(initialBusinesses, seo.h1, seo.canonical)
+      : null;
+
+  const collectionPageJsonLd =
+    onPage?.schema?.enableCollectionPage !== false
+      ? buildCollectionPageJsonLd(seo.h1, seo.description, seo.canonical)
       : null;
 
   const uiBreadcrumbs = [
@@ -252,7 +265,7 @@ export async function loadListingsPageData(
             },
             { label: filters.subCategoryName || titleCase(filters.subCategorySlug) },
           ]
-        : filters.city || filters.keyword || filters.categorySlug
+        : filters.city || filters.keyword || filters.categorySlug || filters.roleSlug
           ? [{ label: seo.h1 }]
           : []),
   ];
@@ -273,6 +286,7 @@ export async function loadListingsPageData(
     onPage,
     breadcrumbJsonLd,
     itemListJsonLd,
+    collectionPageJsonLd,
     uiBreadcrumbs,
     cityLabel: filters.city || undefined,
     popularSearches,

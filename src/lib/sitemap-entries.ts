@@ -5,7 +5,11 @@ import {
   getCityCategoryCombosServer,
   getCityCategorySubCategoryCombosServer,
 } from "@/lib/api/business-server";
-import { buildListingsCityCategoryPath } from "@/lib/listings-url";
+import {
+  buildListingsCityCategoryPath,
+  buildListingsCategoryPath,
+  buildFlatSuppliersPath,
+} from "@/lib/listings-url";
 import { fetchAllCategoriesAllPages } from "@/lib/api/category-server";
 import { categoryToSlug } from "@/lib/listings-url";
 import type { MarketplaceProductsResponse } from "@/lib/api/products";
@@ -18,6 +22,11 @@ const MAX_CITY_CATEGORY_SITEMAP_ENTRIES = 5000;
 const MAX_CITY_CATEGORY_SUBCATEGORY_SITEMAP_ENTRIES = 5000;
 const MAX_PRODUCT_SITEMAP_ENTRIES = 5000;
 
+// A combo with only a couple of businesses has no unique content of its own —
+// keep it out of the sitemap rather than indexing 76 categories × 179 cities
+// blindly. Mirrors the noIndex threshold in buildListingsSeo (src/lib/seo.ts).
+const MIN_INDEXABLE_BUSINESS_COUNT = 5;
+
 export const STATIC_SITEMAP_ROUTES: SitemapUrl[] = [
   { loc: `${SITE_URL}`, changefreq: "daily", priority: 1 },
   { loc: `${SITE_URL}/listings`, changefreq: "daily", priority: 0.9 },
@@ -29,13 +38,14 @@ export const STATIC_SITEMAP_ROUTES: SitemapUrl[] = [
   { loc: `${SITE_URL}/register-business`, changefreq: "weekly", priority: 0.7 },
   { loc: `${SITE_URL}/plans`, changefreq: "weekly", priority: 0.7 },
   { loc: `${SITE_URL}/post-requirement`, changefreq: "weekly", priority: 0.75 },
+  { loc: `${SITE_URL}/blog`, changefreq: "daily", priority: 0.7 },
   { loc: `${SITE_URL}/site-map`, changefreq: "weekly", priority: 0.5 },
 ];
 
 export async function getCategorySitemapEntries(): Promise<SitemapUrl[]> {
   const categories = await fetchAllCategoriesAllPages();
   return categories.map((category) => ({
-    loc: `${SITE_URL}/listings/category/${categoryToSlug(category)}`,
+    loc: `${SITE_URL}${buildListingsCategoryPath(categoryToSlug(category))}`,
     changefreq: "weekly" as const,
     priority: 0.65,
   }));
@@ -96,6 +106,7 @@ export async function getStateSitemapEntries(): Promise<SitemapUrl[]> {
 export async function getCityCategorySitemapEntries(): Promise<SitemapUrl[]> {
   const combos = await getCityCategoryCombosServer();
   return combos
+    .filter((combo) => combo.count >= MIN_INDEXABLE_BUSINESS_COUNT)
     .slice(0, MAX_CITY_CATEGORY_SITEMAP_ENTRIES)
     .map((combo) => ({
       loc: `${SITE_URL}${buildListingsCityCategoryPath(combo.city, combo.categorySlug)}`,
@@ -107,11 +118,40 @@ export async function getCityCategorySitemapEntries(): Promise<SitemapUrl[]> {
 export async function getCityCategorySubCategorySitemapEntries(): Promise<SitemapUrl[]> {
   const combos = await getCityCategorySubCategoryCombosServer();
   return combos
+    .filter((combo) => combo.count >= MIN_INDEXABLE_BUSINESS_COUNT)
     .slice(0, MAX_CITY_CATEGORY_SUBCATEGORY_SITEMAP_ENTRIES)
     .map((combo) => ({
       loc: `${SITE_URL}${buildListingsCityCategoryPath(combo.city, combo.categorySlug, combo.subCategorySlug)}`,
       changefreq: "weekly" as const,
       priority: 0.55,
+    }));
+}
+
+// Long-tail `/{category}-suppliers-in-{city}` and `/{subcategory}-suppliers-in-{city}`
+// landing pages. Each canonicalizes back to its nested /city/{city}/{slug} page
+// (see buildFlatSuppliersPath) — listing them here is purely for crawl discovery,
+// not a claim that they're the canonical URL.
+export async function getFlatCategoryCitySitemapEntries(): Promise<SitemapUrl[]> {
+  const combos = await getCityCategoryCombosServer();
+  return combos
+    .filter((combo) => combo.count >= MIN_INDEXABLE_BUSINESS_COUNT)
+    .slice(0, MAX_CITY_CATEGORY_SITEMAP_ENTRIES)
+    .map((combo) => ({
+      loc: `${SITE_URL}${buildFlatSuppliersPath(combo.categorySlug, combo.city)}`,
+      changefreq: "weekly" as const,
+      priority: 0.65,
+    }));
+}
+
+export async function getFlatSubCategoryCitySitemapEntries(): Promise<SitemapUrl[]> {
+  const combos = await getCityCategorySubCategoryCombosServer();
+  return combos
+    .filter((combo) => combo.count >= MIN_INDEXABLE_BUSINESS_COUNT)
+    .slice(0, MAX_CITY_CATEGORY_SUBCATEGORY_SITEMAP_ENTRIES)
+    .map((combo) => ({
+      loc: `${SITE_URL}${buildFlatSuppliersPath(combo.subCategorySlug, combo.city)}`,
+      changefreq: "weekly" as const,
+      priority: 0.6,
     }));
 }
 

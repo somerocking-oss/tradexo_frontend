@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Quote, Star } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
 import type { TestimonialsSection } from "@/lib/cms";
@@ -92,12 +93,12 @@ export function HomeSuccessAndCta({
             >
               Register Your Business
             </Button>
-            <a
+            <Link
               href="/plans"
               className="mt-3 flex items-center justify-center gap-1 text-xs font-semibold text-[#B7C3DD] hover:text-white"
             >
               View Pricing Plans <ArrowRight className="h-3 w-3" aria-hidden />
-            </a>
+            </Link>
             {businessCountLabel && (
               <p className="mt-3 text-center text-[11px] text-[#7C8FB3]">
                 Join {businessCountLabel}+ businesses already on Tradexo

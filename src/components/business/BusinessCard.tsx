@@ -24,6 +24,7 @@ import { VerifiedBadge } from "@/components/business/VerifiedBadge";
 import type { Business } from "@/types";
 import type { TrackingContext } from "@/lib/analytics/track";
 import { useBusinessImpression } from "@/hooks/useBusinessImpression";
+import { getBusinessProfilePath } from "@/lib/business-url";
 
 const PROVIDER_LABELS: Record<string, { label: string; icon: typeof Wrench }> = {
   services: { label: "Service", icon: Wrench },
@@ -60,6 +61,7 @@ export function BusinessCard({ business, onLead, compact, tracking, rankPosition
       : null;
   const catalogCount = (business.services || business.catalog || []).length;
   const businessId = String(business._id);
+  const profilePath = getBusinessProfilePath(business);
   const impressionRef = useBusinessImpression(businessId, tracking, rankPosition);
 
   return (
@@ -71,7 +73,7 @@ export function BusinessCard({ business, onLead, compact, tracking, rankPosition
 
       <TrackedProfileLink
         businessId={businessId}
-        href={`/business/${business._id}`}
+        href={profilePath}
         tracking={tracking}
         className="block"
       >
@@ -112,7 +114,7 @@ export function BusinessCard({ business, onLead, compact, tracking, rankPosition
       <div className="p-5">
         <div className="mb-2 flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
-            <TrackedProfileLink businessId={businessId} href={`/business/${business._id}`} tracking={tracking}>
+            <TrackedProfileLink businessId={businessId} href={profilePath} tracking={tracking}>
               <h3 className="truncate text-lg font-bold text-[#37474f] group-hover:text-[#111]">
                 {business.name}
               </h3>
@@ -167,7 +169,7 @@ export function BusinessCard({ business, onLead, compact, tracking, rankPosition
               className="col-span-2"
             />
           ) : (
-            <TrackedProfileLink businessId={businessId} href={`/business/${business._id}`} tracking={tracking} className="col-span-2">
+            <TrackedProfileLink businessId={businessId} href={profilePath} tracking={tracking} className="col-span-2">
               <Button size="sm" variant="call" className="w-full">View Profile</Button>
             </TrackedProfileLink>
           )}
@@ -216,6 +218,7 @@ export function BusinessListRow({
     ? ROLE_LABELS[business.marketplaceType]
     : null;
   const businessId = String(business._id);
+  const profilePath = getBusinessProfilePath(business);
   const impressionRef = useBusinessImpression(businessId, tracking, rankPosition);
 
   return (
@@ -227,7 +230,7 @@ export function BusinessListRow({
         <div className="flex flex-wrap items-center gap-2">
           <TrackedProfileLink
             businessId={businessId}
-            href={`/business/${business._id}`}
+            href={profilePath}
             tracking={tracking}
             className="text-lg font-bold text-[#37474f] hover:text-[#111]"
           >
@@ -283,7 +286,7 @@ export function BusinessListRow({
             className="flex-1 sm:w-full"
           />
         ) : (
-          <TrackedProfileLink businessId={businessId} href={`/business/${business._id}`} tracking={tracking} className="flex-1 sm:w-full">
+          <TrackedProfileLink businessId={businessId} href={profilePath} tracking={tracking} className="flex-1 sm:w-full">
             <Button size="sm" variant="outline" className="w-full">View</Button>
           </TrackedProfileLink>
         )}

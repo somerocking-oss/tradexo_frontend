@@ -111,9 +111,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <p className="mt-1 text-xs text-[#888]">
                 Complete KYC & catalogue to rank higher in search.
               </p>
-              <a href="/dashboard" className="mt-3 block text-xs font-semibold text-[#ff6c00] hover:underline">
+              <Link href="/dashboard" className="mt-3 block text-xs font-semibold text-[#ff6c00] hover:underline">
                 View tips →
-              </a>
+              </Link>
             </div>
           </div>
         </aside>

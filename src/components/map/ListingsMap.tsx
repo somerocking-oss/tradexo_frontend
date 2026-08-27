@@ -7,6 +7,7 @@ import "leaflet/dist/leaflet.css";
 import { TrackedProfileLink } from "@/components/business/TrackedProfileLink";
 import { trackProfileClick, type TrackingContext } from "@/lib/analytics/track";
 import { resolveBusinessCoords } from "@/lib/geo";
+import { getBusinessProfilePath } from "@/lib/business-url";
 import type { Business } from "@/types";
 
 const userIcon = L.divIcon({
@@ -129,7 +130,7 @@ export function ListingsMap({
                 )}
                 <TrackedProfileLink
                   businessId={String(business._id)}
-                  href={`/business/${business._id}`}
+                  href={getBusinessProfilePath(business)}
                   tracking={{
                     source: mapTracking.source || "map",
                     keyword: mapTracking.keyword,

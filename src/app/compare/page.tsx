@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { getBusinessById } from "@/lib/api/business";
 import { getBusinessHeroImageUrl, formatPhone } from "@/lib/utils";
 import type { Business } from "@/types";
+import { getBusinessProfilePath } from "@/lib/business-url";
 import {
   X,
   MapPin,
@@ -644,7 +645,7 @@ function CompareContent() {
                 <td key={b._id} className="px-5 py-4">
                   <div className="flex flex-col gap-2">
                     <Link
-                      href={`/business/${b._id}`}
+                      href={getBusinessProfilePath(b)}
                       className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#FF6C00] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#E86200] active:scale-[0.98]"
                     >
                       View Profile

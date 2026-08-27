@@ -58,6 +58,12 @@ export async function ListingsRootPageContent({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(data.itemListJsonLd) }}
         />
       )}
+      {data.collectionPageJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data.collectionPageJsonLd) }}
+        />
+      )}
       <ListingsPageHero {...data.hero} />
       <Suspense
         fallback={

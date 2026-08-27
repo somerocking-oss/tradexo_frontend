@@ -79,6 +79,12 @@ export default async function ListingsNearMePage({ params, searchParams }: PageP
           dangerouslySetInnerHTML={{ __html: JSON.stringify(data.itemListJsonLd) }}
         />
       )}
+      {data.collectionPageJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data.collectionPageJsonLd) }}
+        />
+      )}
       <ListingsPageHero {...data.hero} />
       <Suspense
         fallback={

@@ -37,6 +37,7 @@ export interface OnPageSeoSchema {
   enableBreadcrumbs?: boolean;
   enableItemList?: boolean;
   enableFaqPage?: boolean;
+  enableCollectionPage?: boolean;
 }
 
 export interface OnPageSeoSettings {
