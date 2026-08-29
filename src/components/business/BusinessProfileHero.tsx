@@ -27,6 +27,12 @@ export function BusinessProfileHero({ business }: { business: Business }) {
     business.images?.[0];
   const category = resolveCategory(business);
   const marketplaceLabel = formatMarketplaceType(business.marketplaceType);
+  const heroBanner = business.images?.find(
+    (img) => typeof img === "object" && img.type === "banner"
+  );
+  const heroAlt =
+    (typeof heroBanner === "object" && heroBanner?.alt) ||
+    `${business.name}${category ? ` — ${category.name}` : ""}${business.city ? ` in ${business.city}` : ""}`;
   const isPremiumPlan = ["premium", "gold", "enterprise"].includes(business.subscriptionPlan || "");
 
   const stats = [
@@ -68,7 +74,7 @@ export function BusinessProfileHero({ business }: { business: Business }) {
       <div className="relative h-44 bg-gradient-to-br from-[#f0f0f0] via-[#f8fafc] to-[#eef2ff] sm:h-52 md:h-60">
         <Image
           src={heroImage}
-          alt=""
+          alt={heroAlt}
           fill
           className="object-cover opacity-90"
           priority
@@ -85,7 +91,7 @@ export function BusinessProfileHero({ business }: { business: Business }) {
                 <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-white bg-white shadow-md sm:h-24 sm:w-24">
                   <Image
                     src={getImageUrl(typeof logoImage === "string" ? logoImage : logoImage?.url)}
-                    alt={`${business.name} logo`}
+                    alt={(typeof logoImage === "object" && logoImage?.alt) || `${business.name} logo`}
                     fill
                     className="object-cover"
                     sizes="96px"

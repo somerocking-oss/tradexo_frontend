@@ -17,10 +17,10 @@ import { BusinessPageAnalytics } from "@/components/business/BusinessPageAnalyti
 import { getImageUrl, getBusinessHeroImageUrl } from "@/lib/utils";
 import { getBusinessByIdServer } from "@/lib/api/business-server";
 import { getBusinessProfilePath } from "@/lib/business-url";
-import { buildBreadcrumbJsonLd, buildFaqPageJsonLd, buildOpeningHoursJsonLd } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, buildFaqPageJsonLd, buildOpeningHoursJsonLd, isBusinessSeoComplete } from "@/lib/seo";
 import { fetchSiteSettings } from "@/lib/cms";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
-import { buildListingsCityPath } from "@/lib/listings-url";
+import { buildListingsCategoryPath, buildListingsCityCategoryPath, buildListingsCityPath, categoryToSlug } from "@/lib/listings-url";
 import type { Business, BusinessCatalogItem } from "@/types";
 
 export const revalidate = 300;
@@ -88,13 +88,16 @@ export async function generateMetadata({
       : `Explore ${business.name}, ${categoryArticle} ${categoryName || "verified"} business${citySuffix}. `) +
       `View services, products, location and contact details on ${SITE_NAME}.`;
 
+  const seoComplete = isBusinessSeoComplete(business);
+  const noIndex = seo?.noIndex || !seoComplete;
+
   return {
     title,
     description,
     alternates: { canonical: seo?.canonicalUrl ?? `${SITE_URL}${profilePath}` },
     robots:
-      seo?.noIndex || seo?.noFollow
-        ? { index: !seo?.noIndex, follow: !seo?.noFollow }
+      noIndex || seo?.noFollow
+        ? { index: !noIndex, follow: !seo?.noFollow }
         : undefined,
     openGraph: {
       title: seo?.ogTitle || title,
@@ -139,11 +142,23 @@ export default async function BusinessPage({
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   const enableFaqSchema = settings?.seo?.onPage?.schema?.enableFaqPage !== false;
   const faqJsonLd = enableFaqSchema ? buildFaqPageJsonLd(faqs) : null;
+  const primaryCategory =
+    business.primaryCategory && typeof business.primaryCategory === "object"
+      ? business.primaryCategory
+      : null;
+  const categoryCrumbPath = primaryCategory
+    ? business.city
+      ? buildListingsCityCategoryPath(business.city, categoryToSlug(primaryCategory))
+      : buildListingsCategoryPath(categoryToSlug(primaryCategory))
+    : undefined;
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: "Home", url: SITE_URL },
     { name: "Listings", url: `${SITE_URL}/listings` },
     ...(business.city
       ? [{ name: business.city, url: `${SITE_URL}${buildListingsCityPath(business.city)}` }]
+      : []),
+    ...(primaryCategory && categoryCrumbPath
+      ? [{ name: primaryCategory.name, url: `${SITE_URL}${categoryCrumbPath}` }]
       : []),
     { name: business.name, url: businessUrl },
   ]);
@@ -185,6 +200,16 @@ export default async function BusinessPage({
                 <li>
                   <Link href={buildListingsCityPath(business.city)} className="hover:text-[#ff6600]">
                     {business.city}
+                  </Link>
+                </li>
+              </>
+            )}
+            {primaryCategory && categoryCrumbPath && (
+              <>
+                <li aria-hidden>/</li>
+                <li>
+                  <Link href={categoryCrumbPath} className="hover:text-[#ff6600]">
+                    {primaryCategory.name}
                   </Link>
                 </li>
               </>
@@ -326,7 +351,7 @@ export default async function BusinessPage({
                       <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-[#f5f5f5]">
                         <Image
                           src={getImageUrl(img)}
-                          alt={`${business.name} photo ${i + 1}`}
+                          alt={(typeof img === "object" && img?.alt) || `${business.name} photo ${i + 1}`}
                           fill
                           className="object-cover transition hover:scale-105"
                           sizes="180px"

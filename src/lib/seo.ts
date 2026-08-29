@@ -65,6 +65,7 @@ export function buildListingsSeo(
   const page = Number(getParam(params, "page") || "1");
   const nearMe = getParam(params, "nearMe") === "true";
   const view = getParam(params, "view");
+  const sort = getParam(params, "sort");
   const radiusKm = Number(getParam(params, "radiusKm") || String(DEFAULT_NEAR_ME_RADIUS_KM));
   const listings = onPage?.listings;
 
@@ -192,12 +193,11 @@ export function buildListingsSeo(
   });
   const canonical = `${SITE_URL}${canonicalPath}`;
 
-  // Deep multi-filter combinations (e.g. ?isVerified=true&isFeatured=true&
-  // marketplaceType=x) create a combinatorial explosion of thin/near-duplicate
-  // URLs with no unique content of their own — noindex (but still follow, so
-  // link equity to the underlying businesses still flows) once 2+ secondary
-  // filters are stacked. A single filter (e.g. the "Verified Suppliers"
-  // footer link) is still a real, intentionally-linked page and stays indexable.
+  // Filter/sort/view query params (?isFeatured=true, ?sort=latest,
+  // ?view=map) narrow or reorder the same underlying result set rather than
+  // representing distinct topical content — noindex,follow so link equity
+  // still flows to the underlying businesses, while the canonical (below)
+  // points crawlers back at the clean, filter-free URL for that city/category.
   const secondaryFilterCount = [
     getParam(params, "isVerified") === "true",
     getParam(params, "isFeatured") === "true",
@@ -205,6 +205,8 @@ export function buildListingsSeo(
     !!getParam(params, "marketplaceType"),
     !!getParam(params, "sellerIntent"),
   ].filter(Boolean).length;
+  const hasNonDefaultSort = !!sort && sort !== "priority";
+  const hasMapView = view === "map" && !nearMe;
 
   // Category×city combo pages are the combinatorial-explosion risk (76
   // categories × 179 cities) — only index the ones with enough real
@@ -226,7 +228,13 @@ export function buildListingsSeo(
     canonical,
     h1,
     subtitle,
-    noIndex: page > 1 || secondaryFilterCount >= 2 || isThinComboPage || isThinRolePage,
+    noIndex:
+      page > 1 ||
+      secondaryFilterCount >= 1 ||
+      hasNonDefaultSort ||
+      hasMapView ||
+      isThinComboPage ||
+      isThinRolePage,
   };
 }
 
@@ -234,7 +242,8 @@ export function buildBrowseSeo(
   keyword: string,
   city: string | undefined,
   onPage?: OnPageSeoSettings,
-  siteName = SITE_NAME
+  siteName = SITE_NAME,
+  resultCount = -1
 ) {
   const browse = onPage?.browse;
   const keywordLabel = titleCase(keyword);
@@ -257,7 +266,54 @@ export function buildBrowseSeo(
         `Find verified ${keyword} suppliers and local businesses across India. Compare listings, call, WhatsApp or request quotes on ${siteName}.`
       );
 
-  return { title, description, h1: title };
+  // Keyword+city browse slugs are auto-generated combinations (any keyword ×
+  // any of ~180 cities) — most never see a real search. Noindex the ones
+  // that resolve to zero listings so they don't sit in Google's index as
+  // empty pages; still followable so link equity flows through to real ones.
+  const noIndex = resultCount >= 0 && resultCount === 0;
+
+  return { title, description, h1: title, noIndex };
+}
+
+/** SEO-content completeness gate for business profile pages — distinct from
+ *  the seller-facing KYC/trust profile score (which weights GST docs and
+ *  turnover, irrelevant to whether a page has enough unique content to be
+ *  worth indexing). A profile below 70% reads as a bare stub (name, category,
+ *  city, contact and nothing else) — index it once it has real content. */
+export function isBusinessSeoComplete(business: {
+  description?: string;
+  shortDescription?: string;
+  primaryCategory?: unknown;
+  city?: string;
+  address?: string;
+  images?: Array<string | { type?: string }>;
+  services?: unknown[];
+  catalog?: unknown[];
+  marketplaceType?: string;
+  phone?: string;
+  mobile?: string;
+  whatsapp?: string;
+  timing?: unknown;
+  faqs?: Array<{ question?: string; answer?: string }>;
+}) {
+  const images = business.images || [];
+  const catalogItems = business.services?.length ? business.services : business.catalog || [];
+  const checks = [
+    !!(business.description?.trim() || business.shortDescription?.trim()),
+    !!business.primaryCategory,
+    !!business.city,
+    !!business.address,
+    images.some((img) => typeof img === "object" && img?.type === "logo"),
+    images.length >= 3,
+    catalogItems.length > 0,
+    !!business.marketplaceType,
+    !!(business.phone || business.mobile || business.whatsapp),
+    !!(business.timing && Object.keys(business.timing).length > 0),
+    (business.faqs || []).some((faq) => faq.question?.trim() && faq.answer?.trim()),
+  ];
+
+  const percent = Math.round((checks.filter(Boolean).length / checks.length) * 100);
+  return percent >= 70;
 }
 
 export function buildWebSiteJsonLd(siteName: string) {
@@ -522,6 +578,31 @@ export function buildCategoryFaqs(categoryLabel: string, cityLabel?: string) {
     {
       question: `Are the ${categoryLabel} suppliers on Tradexo verified?`,
       answer: `Suppliers marked "Verified" or "TrustSEAL Verified" have completed Tradexo's KYC process, including GST and business document verification.`,
+    },
+  ];
+}
+
+/** Programmatic FAQ content for pure city listing pages (no category filter
+ *  applied) — buildCategoryFaqs can't run here since it's entirely
+ *  category-phrased, so city-only pages (/city/{city}) would otherwise ship
+ *  with no FAQ block at all. */
+export function buildCityFaqs(cityLabel: string) {
+  return [
+    {
+      question: `How many verified businesses are listed in ${cityLabel} on Tradexo?`,
+      answer: `Tradexo lists verified manufacturers, wholesalers, suppliers and service providers across every major category in ${cityLabel}. Use the category filters above to browse by industry.`,
+    },
+    {
+      question: `How do I contact a business in ${cityLabel}?`,
+      answer: `Open any listing to call, WhatsApp or send a quote request directly to the business — no login required to browse or contact.`,
+    },
+    {
+      question: `Are the businesses listed in ${cityLabel} verified?`,
+      answer: `Businesses marked "Verified" or "TrustSEAL Verified" have completed Tradexo's KYC process, including GST and business document verification. Use the "Verified" filter to see only these listings.`,
+    },
+    {
+      question: `How do I list my business in ${cityLabel} on Tradexo?`,
+      answer: `Registration is free — click "Register Business" and add your listing in a few minutes to start receiving leads from buyers in ${cityLabel}.`,
     },
   ];
 }

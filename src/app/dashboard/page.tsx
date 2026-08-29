@@ -57,7 +57,7 @@ function StatCardSkeleton() {
 
 function DashboardSkeleton() {
   return (
-    <div className="px-4 lg:px-0" aria-busy="true" aria-label="Loading dashboard">
+    <div className="px-4 lg:px-0" role="status" aria-busy="true" aria-label="Loading dashboard">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-2">
           <div className="h-8 w-48 animate-pulse rounded bg-slate-100" />

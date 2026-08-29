@@ -1,11 +1,11 @@
 "use client";
 
 import { HelpCircle } from "lucide-react";
-import { buildCategoryFaqs, buildFaqPageJsonLd } from "@/lib/seo";
+import { buildCategoryFaqs, buildCityFaqs, buildFaqPageJsonLd } from "@/lib/seo";
 
-/** Visible FAQ accordion + FAQPage JSON-LD for category/category+city listing
- *  pages. Google requires the FAQ text to be genuinely visible on the page
- *  (not just in structured data) to qualify for the rich-result treatment. */
+/** Visible FAQ accordion + FAQPage JSON-LD for city/category listing pages.
+ *  Google requires the FAQ text to be genuinely visible on the page (not
+ *  just in structured data) to qualify for the rich-result treatment. */
 export function ListingsCategoryFaq({
   categoryLabel,
   cityLabel,
@@ -13,9 +13,9 @@ export function ListingsCategoryFaq({
   categoryLabel?: string;
   cityLabel?: string;
 }) {
-  if (!categoryLabel) return null;
+  if (!categoryLabel && !cityLabel) return null;
 
-  const faqs = buildCategoryFaqs(categoryLabel, cityLabel);
+  const faqs = categoryLabel ? buildCategoryFaqs(categoryLabel, cityLabel) : buildCityFaqs(cityLabel!);
   const faqJsonLd = buildFaqPageJsonLd(faqs);
 
   return (

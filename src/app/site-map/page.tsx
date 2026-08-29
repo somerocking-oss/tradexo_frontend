@@ -5,6 +5,7 @@ import {
   fetchSitemapPages,
   getPagePublicPath,
 } from "@/lib/cms";
+import { SITE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       settings?.footer?.description ||
       "Browse all pages on Tradexo.",
+    alternates: { canonical: `${SITE_URL}/site-map` },
   };
 }
 

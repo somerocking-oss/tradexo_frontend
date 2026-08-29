@@ -111,6 +111,7 @@ export function HomeTestimonialsCarousel({ section }: { section?: TestimonialsSe
                 <div className="mb-4 flex items-center justify-between">
                   <div
                     className="flex gap-0.5"
+                    role="img"
                     aria-label={`${item.rating ?? 5} out of 5 stars`}
                   >
                     {Array.from({ length: item.rating ?? 5 }).map((_, j) => (

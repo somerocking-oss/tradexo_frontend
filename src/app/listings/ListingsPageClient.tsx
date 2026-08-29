@@ -186,10 +186,13 @@ export function ListingsPageClient({
       parseListingsCityCategoryPath(pathname).categorySlug ||
       undefined;
 
-  const resolvedCategoryLabel =
-    activeCategory?.name ||
-    categories.find((c) => categoryToSlug(c) === (pathCategorySlug || activeCategorySlug))?.name ||
-    undefined;
+  const matchedCategory =
+    activeCategory || categories.find((c) => categoryToSlug(c) === (pathCategorySlug || activeCategorySlug));
+
+  const resolvedCategoryLabel = matchedCategory?.name || undefined;
+
+  const resolvedCategoryDescription =
+    matchedCategory?.description || matchedCategory?.shortDescription || undefined;
 
   const activeSubCategory =
     subCategoryId
@@ -910,6 +913,11 @@ export function ListingsPageClient({
       {/* ── Main content ── */}
       <div className="bg-neutral-50 min-h-screen">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+          {resolvedCategoryDescription && (
+            <p className="mb-6 max-w-4xl text-sm leading-relaxed text-neutral-600">
+              {resolvedCategoryDescription}
+            </p>
+          )}
           <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
 
             {/* Sidebar — desktop only */}

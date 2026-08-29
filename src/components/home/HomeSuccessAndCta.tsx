@@ -45,7 +45,7 @@ export function HomeSuccessAndCta({
                 <Reveal key={`${item.name}-${i}`} delay={i * 90}>
                   <blockquote className="flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#FF6C00]/20 hover:shadow-md">
                     <div className="flex items-center justify-between">
-                      <div className="flex gap-0.5" aria-label={`${item.rating ?? 5} out of 5 stars`}>
+                      <div className="flex gap-0.5" role="img" aria-label={`${item.rating ?? 5} out of 5 stars`}>
                         {Array.from({ length: item.rating ?? 5 }).map((_, j) => (
                           <Star key={j} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" aria-hidden />
                         ))}

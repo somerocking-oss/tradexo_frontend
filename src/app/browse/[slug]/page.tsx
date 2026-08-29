@@ -35,12 +35,22 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const { keyword, city } = parseBrowseSlug(slug);
-  const settings = await fetchSiteSettings();
+  const [settings, initialBusinesses] = await Promise.all([
+    fetchSiteSettings(),
+    searchBusinessesServer({
+      keyword: keyword || undefined,
+      city: city || undefined,
+      sort: "priority",
+      limit: 24,
+      page: 1,
+    }),
+  ]);
   const browseSeo = buildBrowseSeo(
     keyword,
     city,
     settings?.seo?.onPage,
-    settings?.siteName || SITE_NAME
+    settings?.siteName || SITE_NAME,
+    initialBusinesses.length
   );
   const ogImage = settings?.seo?.ogImage || DEFAULT_OG_IMAGE;
   const fullTitle = `${browseSeo.title} | ${settings?.siteName || SITE_NAME}`;
@@ -49,6 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: browseSeo.title,
     description: browseSeo.description,
     alternates: { canonical: `${SITE_URL}/browse/${slug}` },
+    robots: browseSeo.noIndex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: fullTitle,
       description: browseSeo.description,

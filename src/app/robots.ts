@@ -10,9 +10,15 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: seo?.disallowPaths?.length
-        ? [...new Set([...seo.disallowPaths, "/login", "/api"])]
-        : ["/dashboard", "/profile", "/login", "/api"],
+      disallow: [
+        ...new Set([
+          "/dashboard",
+          "/profile",
+          "/login",
+          "/api",
+          ...(seo?.disallowPaths || []),
+        ]),
+      ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

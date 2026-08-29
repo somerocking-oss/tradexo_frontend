@@ -89,7 +89,7 @@ function ListingCard({ business }: { business: Business }) {
 
         {rating > 0 && (
           <div className="mt-2 flex items-center gap-1.5">
-            <div className="flex items-center gap-0.5" aria-label={`${rating.toFixed(1)} out of 5 stars`}>
+            <div className="flex items-center gap-0.5" role="img" aria-label={`${rating.toFixed(1)} out of 5 stars`}>
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
