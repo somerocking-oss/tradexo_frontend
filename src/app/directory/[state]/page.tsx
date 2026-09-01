@@ -53,7 +53,7 @@ export default async function StateDirectoryPage({ params }: PageProps) {
     <MainLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6">
         <nav className="text-xs text-neutral-400">
           <Link href="/directory" className="hover:text-[#FF6C00]">Browse by State</Link>
           <span className="mx-1.5">/</span>

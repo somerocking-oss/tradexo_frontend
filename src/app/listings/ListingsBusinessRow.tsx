@@ -9,7 +9,7 @@ import { SaveBusinessButton } from "@/components/business/SaveBusinessButton";
 import { TrackedCallLink } from "@/components/business/TrackedCallLink";
 import { TrackedProfileLink } from "@/components/business/TrackedProfileLink";
 import { WhatsAppButton } from "@/components/business/WhatsAppButton";
-import { VerifiedBadge } from "@/components/business/VerifiedBadge";
+import { BusinessBadges } from "@/components/business/BusinessBadges";
 import { useBusinessImpression } from "@/hooks/useBusinessImpression";
 import { useAuth } from "@/context/AuthContext";
 import { createLead } from "@/lib/api/lead";
@@ -187,17 +187,7 @@ export function ListingsBusinessRow({
             >
               {business.name}
             </TrackedProfileLink>
-            <VerifiedBadge isVerified={business.isVerified} verificationLevel={business.verificationLevel} />
-            {business.isFeatured && (
-              <span className="rounded-md bg-[#ff6c00] px-2 py-0.5 text-[10px] font-bold uppercase text-white">
-                Featured
-              </span>
-            )}
-            {["premium", "gold", "enterprise"].includes(business.subscriptionPlan || "") && (
-              <span className="rounded-md bg-gradient-to-r from-[#E86200] to-[#FF6C00] px-2 py-0.5 text-[10px] font-bold uppercase text-white shadow-sm">
-                Premium
-              </span>
-            )}
+            <BusinessBadges business={business} />
           </div>
 
           {rating > 0 && (

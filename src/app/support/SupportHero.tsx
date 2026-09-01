@@ -24,7 +24,7 @@ export function SupportHero({ title = "Help Center" }: { title?: string }) {
         className="pointer-events-none absolute bottom-0 left-1/4 h-48 w-48 rounded-full bg-[#FF6C00]/4 blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-8xl">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-neutral-400">
           <Link href="/" className="transition-colors hover:text-[#FF6C00]">

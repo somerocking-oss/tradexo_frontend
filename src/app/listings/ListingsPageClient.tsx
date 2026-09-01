@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import {
+  CheckCircle2,
   ChevronDown,
   Filter,
   LayoutGrid,
@@ -15,6 +16,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { resolveIcon } from "@/lib/categoryIcons";
 import { BusinessGrid } from "@/components/business/BusinessCard";
 import { LeadModal } from "@/components/business/LeadModal";
 import { Input } from "@/components/ui/input";
@@ -534,7 +536,7 @@ export function ListingsPageClient({
     <>
       {/* ── Sticky search + primary filters (single bar under navbar) ── */}
       <div className="sticky top-14 z-30 border-b border-neutral-200 bg-white shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+        <div className="mx-auto max-w-8xl px-4 py-3 sm:px-6 lg:pr-16">
 
           {/* Search form */}
           <form
@@ -731,7 +733,7 @@ export function ListingsPageClient({
 
       {/* ── Secondary filters (scroll away — avoids double sticky header) ── */}
       <div className="border-b border-neutral-100 bg-white">
-        <div className="mx-auto max-w-7xl px-4 pb-4 pt-3 sm:px-6">
+        <div className="mx-auto max-w-8xl px-4 pb-4 pt-3 sm:px-6 lg:pr-16">
 
           {/* Popular searches */}
           {popularSearches.length > 0 ? (
@@ -747,6 +749,12 @@ export function ListingsPageClient({
                 {term}
               </button>
             ))}
+            <Link
+              href="/browse"
+              className="ml-auto shrink-0 text-xs font-semibold text-[#FF6C00] hover:underline"
+            >
+              View All
+            </Link>
           </div>
           ) : null}
 
@@ -912,11 +920,39 @@ export function ListingsPageClient({
 
       {/* ── Main content ── */}
       <div className="bg-neutral-50 min-h-screen">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-8xl px-4 py-6 sm:px-6 sm:py-8 lg:pr-16">
           {resolvedCategoryDescription && (
-            <p className="mb-6 max-w-4xl text-sm leading-relaxed text-neutral-600">
-              {resolvedCategoryDescription}
-            </p>
+            <div className="mb-6 rounded-2xl border border-neutral-400 bg-white p-5 shadow-sm sm:p-6">
+              <div className="grid gap-5 sm:grid-cols-[auto_1fr] sm:items-start lg:grid-cols-[auto_1fr_auto]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#EAF2FB]">
+                  {(() => {
+                    const CategoryIcon = resolveIcon(resolvedCategoryLabel || "");
+                    return <CategoryIcon className="h-6 w-6 text-[#0B3B6F]" aria-hidden />;
+                  })()}
+                </div>
+                <div className="min-w-0">
+                  <h2 className="text-base font-bold text-[#111]">
+                    The {resolvedCategoryLabel || "Category"} category
+                  </h2>
+                  <p className="mt-1.5 line-clamp-4 text-sm leading-relaxed text-neutral-600">
+                    {resolvedCategoryDescription}
+                  </p>
+                </div>
+                <ul className="grid shrink-0 grid-cols-1 gap-2 sm:col-span-2 sm:grid-cols-2 sm:pl-16 lg:col-span-1 lg:grid-cols-1 lg:pl-0">
+                  {[
+                    "Verified & Trusted Businesses",
+                    "Instant Quotes & Easy Contact",
+                    "Compare & Choose Best Providers",
+                    "100% Safe & Secure",
+                  ].map((point) => (
+                    <li key={point} className="flex items-center gap-2 text-sm text-[#333]">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           )}
           <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
 

@@ -20,8 +20,8 @@ export function HomeTopCities({ cities = [] }: { cities?: TopCity[] }) {
   if (!cities.length) return null;
 
   return (
-    <section className="border-b border-neutral-300 bg-white px-4 py-12 sm:px-6 sm:py-14" aria-labelledby="top-cities-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-b border-neutral-300 bg-white px-3 py-12 sm:px-4 sm:py-14" aria-labelledby="top-cities-heading">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-8">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#A3A3A3]">
             Pan-India Coverage

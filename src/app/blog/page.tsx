@@ -48,7 +48,7 @@ export default async function BlogPage({
     <MainLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <section className="mx-auto max-w-8xl px-4 py-12 sm:px-6">
         <div className="mb-10">
           <p className="text-sm font-semibold uppercase tracking-wider text-[#ff6c00]">Insights</p>
           <h1 className="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">

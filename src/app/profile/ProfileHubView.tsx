@@ -170,7 +170,7 @@ export default function ProfileHubView() {
 
       {/* ── Hero band ── */}
       <div className="border-b border-neutral-100 bg-white px-4 py-8 sm:px-6 sm:py-10">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-8xl">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-5 flex items-center gap-1 text-xs text-neutral-400">
             <Link href="/" className="transition-colors hover:text-[#FF6C00]">Home</Link>
@@ -260,7 +260,7 @@ export default function ProfileHubView() {
 
       {/* ── Quick action strip ── */}
       <div className="border-b border-neutral-100 bg-white px-4 py-4 sm:px-6">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mx-auto grid max-w-8xl grid-cols-2 gap-3 sm:grid-cols-4">
           {ACTION_CARDS.map(({ href, icon: Icon, label, hint, iconBg, iconColor }) => (
             <Link key={href} href={href} className="group">
               <div className="flex items-center gap-3 rounded-xl border border-neutral-100 bg-neutral-50 p-3 transition-all duration-200 hover:border-[#FF6C00]/20 hover:bg-white hover:shadow-md hover:-translate-y-0.5">
@@ -278,7 +278,7 @@ export default function ProfileHubView() {
       </div>
 
       {/* ── Main body ── */}
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-8xl px-4 py-6 sm:px-6 sm:py-8">
         <div className="grid gap-6 lg:grid-cols-[280px_1fr] lg:gap-8">
 
           {/* ── Desktop sidebar ── */}

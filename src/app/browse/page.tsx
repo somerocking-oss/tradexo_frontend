@@ -27,7 +27,7 @@ export default async function BrowseIndexPage() {
       <div className="relative overflow-hidden border-b border-neutral-200 bg-gradient-to-br from-[#f0f0f0] via-white to-[#f8fafc]">
         <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-[#ff6c00]/5 blur-3xl" aria-hidden />
 
-        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="relative mx-auto max-w-8xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10">
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#FF6C00]">
@@ -66,7 +66,7 @@ export default async function BrowseIndexPage() {
       </div>
 
       <div className="bg-[#F4F6F8]">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6 lg:px-8">
           <BrowseIndexClient />
         </div>
       </div>

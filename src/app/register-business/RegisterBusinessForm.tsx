@@ -325,7 +325,7 @@ export function RegisterBusinessForm({ registeredToday = 0 }: { registeredToday?
   if (!mounted) {
     return (
       <section className="bg-[#f4f6f8]">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+        <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6">
           <div className="animate-pulse space-y-4">
             <div className="h-3 w-full rounded-full bg-[#e8e8e8]" />
             <div className="h-96 rounded-2xl bg-white" />
@@ -351,7 +351,7 @@ export function RegisterBusinessForm({ registeredToday = 0 }: { registeredToday?
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-6 pb-28 sm:px-6 sm:py-8 sm:pb-10 xl:pb-10">
+      <div className="mx-auto max-w-8xl px-4 py-6 pb-28 sm:px-6 sm:py-8 sm:pb-10 xl:pb-10">
         <div className="grid gap-6 xl:grid-cols-[240px_minmax(0,1fr)_220px] xl:gap-6">
           {/* Left — progress */}
           <aside className="hidden xl:block">

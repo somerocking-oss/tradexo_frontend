@@ -56,7 +56,7 @@ export function BusinessProfileTabs({ tabs }: { tabs: ProfileTab[] }) {
       className="static border-b border-neutral-300 bg-white shadow-sm md:sticky md:top-14 md:z-20"
     >
       <nav
-        className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 sm:px-6"
+        className="mx-auto flex max-w-8xl gap-1 overflow-x-auto px-3 sm:px-4"
         aria-label="Profile section navigation"
       >
         {tabs.map((tab) => (

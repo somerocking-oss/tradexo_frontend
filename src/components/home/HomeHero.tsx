@@ -75,7 +75,7 @@ export function HomeHero({
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
+      <div className="relative mx-auto max-w-8xl px-3 py-10 sm:px-4 sm:py-12 lg:py-14">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left column — copy + search */}
           <div className="min-w-0">
@@ -289,7 +289,7 @@ export function HomeHeroStatsBar({
 
   return (
     <div className="border-b border-[#1F3A63] bg-[#0F1E3D]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto max-w-8xl px-3 sm:px-4">
         <div className="grid grid-cols-2 divide-x divide-[#1F3A63] sm:grid-cols-5">
           {stats.slice(0, 4).map(({ icon: iconName, value, label }) => {
             const Icon =
@@ -303,7 +303,7 @@ export function HomeHeroStatsBar({
             return (
               <div
                 key={label}
-                className="flex items-center justify-center gap-3 px-4 py-4 sm:px-6 sm:py-5"
+                className="flex items-center justify-center gap-3 px-3 py-4 sm:px-4 sm:py-5"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/10">
                   <Icon className="h-4 w-4 text-[#FF6C00]" aria-hidden />
@@ -315,7 +315,7 @@ export function HomeHeroStatsBar({
               </div>
             );
           })}
-          <div className="col-span-2 flex items-center justify-center gap-3 px-4 py-4 sm:col-span-1 sm:px-6 sm:py-5">
+          <div className="col-span-2 flex items-center justify-center gap-3 px-3 py-4 sm:col-span-1 sm:px-4 sm:py-5">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/10">
               <ShieldCheck className="h-4 w-4 text-[#FF6C00]" aria-hidden />
             </span>

@@ -36,7 +36,7 @@ export function HomeListBusinessPromo({
 }) {
   return (
     <section
-      className="relative overflow-hidden border-y border-sky-200 bg-sky-50 px-4 py-14 sm:px-6 sm:py-16"
+      className="relative overflow-hidden border-y border-sky-200 bg-sky-50 px-3 py-14 sm:px-4 sm:py-16"
       aria-labelledby="promo-heading"
     >
       {/* Decorative background blobs */}
@@ -45,7 +45,7 @@ export function HomeListBusinessPromo({
         <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-white opacity-40" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-8xl">
         {/* Split layout */}
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Left: text content */}

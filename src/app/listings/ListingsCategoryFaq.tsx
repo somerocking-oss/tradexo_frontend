@@ -19,7 +19,7 @@ export function ListingsCategoryFaq({
   const faqJsonLd = buildFaqPageJsonLd(faqs);
 
   return (
-    <div className="mx-auto mt-5 max-w-7xl px-4 sm:px-6">
+    <div className="mx-auto mt-5 max-w-8xl px-3 sm:px-4">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}

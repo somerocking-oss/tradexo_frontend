@@ -32,8 +32,8 @@ export function HomeSuccessAndCta({
   const items = (section?.items?.filter((item) => item.quote && item.name) || []).slice(0, 3);
 
   return (
-    <section className="bg-[#F5F5F5] px-4 py-12 sm:px-6 sm:py-14">
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1fr_340px]">
+    <section className="bg-[#F5F5F5] px-3 py-12 sm:px-4 sm:py-14">
+      <div className="mx-auto grid max-w-8xl gap-6 lg:grid-cols-[1fr_340px]">
         {/* Success Stories */}
         <div>
           <h2 className="mb-4 text-xl font-bold tracking-tight text-neutral-900 sm:text-2xl">

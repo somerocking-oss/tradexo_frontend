@@ -279,8 +279,8 @@ export function Footer({
           App download strip
       ══════════════════════════════════════ */}
       {appLinks.length > 0 ? (
-      <div className="border-b border-white/[0.06] px-4 py-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-end gap-2.5">
+      <div className="border-b border-white/[0.06] px-3 py-4 sm:px-4 lg:px-8">
+        <div className="mx-auto flex max-w-8xl flex-wrap items-center justify-end gap-2.5">
           <span className="hidden text-xs text-neutral-600 lg:block">Download&nbsp;App:</span>
           {appLinks.map(({ label, platform, Icon, href }) => (
             <a
@@ -307,7 +307,7 @@ export function Footer({
       {/* ══════════════════════════════════════
           Main grid
       ══════════════════════════════════════ */}
-      <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-8xl px-3 py-10 sm:px-4 lg:px-8">
         <div
           className={`grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 ${
             newsletterEnabled ? "lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]" : "lg:grid-cols-[1.4fr_1fr_1fr_1fr]"

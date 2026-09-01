@@ -47,8 +47,8 @@ export function HomePopularTags({
   if (!tags.length) return null;
 
   return (
-    <section className="border-b border-neutral-400 bg-neutral-200 px-4 py-8 sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-b border-neutral-400 bg-neutral-200 px-3 py-8 sm:px-4">
+      <div className="mx-auto max-w-8xl">
         <h2 className="text-lg font-bold text-[#111] sm:text-xl">{title}</h2>
         <div className="mt-4 flex flex-wrap gap-2.5">
           {tags.map(({ label, href, icon: Icon }) => (
@@ -71,7 +71,7 @@ export function HomeTrendingLinks({ terms = [] }: { terms?: string[] }) {
   if (!terms.length) return null;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
+    <div className="mx-auto max-w-8xl px-3 pb-8 sm:px-4">
       <h3 className="mb-3 text-sm font-bold text-[#111]">Trending Searches</h3>
       <div className="flex flex-wrap gap-x-4 gap-y-2">
         {terms.slice(0, 8).map((term) => (

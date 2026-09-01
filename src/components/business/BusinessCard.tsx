@@ -2,16 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Building2,
-  MapPin,
-  MessageCircle,
-  Package,
-  Star,
-  Wrench,
-} from "lucide-react";
+import { Building2, MapPin, MessageCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { getBusinessWhatsAppPhone, formatPhone, truncate, getBusinessHeroImageUrl } from "@/lib/utils";
 import { formatDistanceKm } from "@/lib/geo";
 import { WhatsAppButton, WhatsAppIconLink } from "@/components/business/WhatsAppButton";
@@ -20,17 +12,11 @@ import { TrackedProfileLink } from "@/components/business/TrackedProfileLink";
 import { SaveBusinessButton } from "@/components/business/SaveBusinessButton";
 import { CompareBusinessButton } from "@/components/business/CompareBusinessButton";
 import { OpenNowBadge } from "@/components/business/OpenNowBadge";
-import { VerifiedBadge } from "@/components/business/VerifiedBadge";
+import { BusinessBadges } from "@/components/business/BusinessBadges";
 import type { Business } from "@/types";
 import type { TrackingContext } from "@/lib/analytics/track";
 import { useBusinessImpression } from "@/hooks/useBusinessImpression";
 import { getBusinessProfilePath } from "@/lib/business-url";
-
-const PROVIDER_LABELS: Record<string, { label: string; icon: typeof Wrench }> = {
-  services: { label: "Service", icon: Wrench },
-  products: { label: "Product", icon: Package },
-  services_and_products: { label: "Service + Product", icon: Building2 },
-};
 
 const ROLE_LABELS: Record<string, string> = {
   local_service: "Local Service",
@@ -53,7 +39,6 @@ export function BusinessCard({ business, onLead, compact, tracking, rankPosition
   const image = getBusinessHeroImageUrl(business);
   const phone = business.mobile || business.phone;
   const whatsappPhone = getBusinessWhatsAppPhone(business);
-  const provider = business.sellerIntent ? PROVIDER_LABELS[business.sellerIntent] : null;
   const roleLabel = business.marketplaceType ? ROLE_LABELS[business.marketplaceType] : null;
   const categoryName =
     typeof business.primaryCategory === "object" && business.primaryCategory?.name
@@ -90,18 +75,8 @@ export function BusinessCard({ business, onLead, compact, tracking, rankPosition
             <CompareBusinessButton businessId={String(business._id)} />
             <SaveBusinessButton businessId={String(business._id)} />
           </div>
-          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-            <VerifiedBadge
-              isVerified={business.isVerified}
-              verificationLevel={business.verificationLevel}
-            />
-            {business.isFeatured && <Badge variant="premium">Featured</Badge>}
-            {provider && (
-              <Badge variant="outline" className="border-white/40 bg-white/90 text-slate-700">
-                <provider.icon className="mr-1 h-3 w-3" />
-                {provider.label}
-              </Badge>
-            )}
+          <div className="absolute left-3 top-3">
+            <BusinessBadges business={business} showProvider />
           </div>
           {categoryName && (
             <span className="absolute bottom-3 left-3 rounded-lg bg-black/50 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
@@ -157,26 +132,32 @@ export function BusinessCard({ business, onLead, compact, tracking, rankPosition
           </p>
         )}
 
-        <div className="grid grid-cols-3 gap-2">
-          {phone ? (
-            <TrackedCallLink
-              businessId={businessId}
-              phone={phone}
-              source={tracking?.source || "listing"}
-              city={tracking?.city || business.city}
-              size="sm"
-              variant="call"
-              className="col-span-2"
-            />
-          ) : (
-            <TrackedProfileLink businessId={businessId} href={profilePath} tracking={tracking} className="col-span-2">
-              <Button size="sm" variant="call" className="w-full">View Profile</Button>
-            </TrackedProfileLink>
-          )}
-          <div className="col-span-1 flex gap-1">
-            <Button size="sm" variant="outline" className="flex-1 px-2" onClick={() => onLead?.(business)}>
-              <MessageCircle className="h-4 w-4" />
-            </Button>
+        <div className="space-y-2">
+          <Button
+            size="sm"
+            variant="primary"
+            className="w-full gap-1.5"
+            onClick={() => onLead?.(business)}
+          >
+            <MessageCircle className="h-4 w-4" />
+            Get Best Price
+          </Button>
+          <div className="grid grid-cols-3 gap-2">
+            {phone ? (
+              <TrackedCallLink
+                businessId={businessId}
+                phone={phone}
+                source={tracking?.source || "listing"}
+                city={tracking?.city || business.city}
+                size="sm"
+                variant="outline"
+                className="col-span-2"
+              />
+            ) : (
+              <TrackedProfileLink businessId={businessId} href={profilePath} tracking={tracking} className="col-span-2">
+                <Button size="sm" variant="outline" className="w-full">View Profile</Button>
+              </TrackedProfileLink>
+            )}
             {whatsappPhone && (
               <WhatsAppIconLink
                 phone={whatsappPhone}
@@ -236,15 +217,11 @@ export function BusinessListRow({
           >
             {business.name}
           </TrackedProfileLink>
-          <VerifiedBadge
-            isVerified={business.isVerified}
-            verificationLevel={business.verificationLevel}
-          />
-          {business.isFeatured && <Badge variant="premium">Featured</Badge>}
+          <BusinessBadges business={business} />
           {roleLabel && (
-            <Badge variant="outline" className="text-xs">
+            <span className="inline-flex items-center rounded-full border border-neutral-300 bg-white px-2.5 py-0.5 text-xs font-semibold text-neutral-600">
               {roleLabel}
-            </Badge>
+            </span>
           )}
         </div>
         {categoryName && <p className="mt-0.5 text-xs font-medium text-[#ff6c00]">{categoryName}</p>}
@@ -282,7 +259,7 @@ export function BusinessListRow({
             source={tracking?.source || "listing"}
             city={tracking?.city || business.city}
             size="sm"
-            variant="call"
+            variant="outline"
             className="flex-1 sm:w-full"
           />
         ) : (
@@ -290,8 +267,8 @@ export function BusinessListRow({
             <Button size="sm" variant="outline" className="w-full">View</Button>
           </TrackedProfileLink>
         )}
-        <Button size="sm" variant="outline" className="flex-1 sm:w-full" onClick={() => onLead?.(business)}>
-          <MessageCircle className="h-4 w-4" /> Quote
+        <Button size="sm" variant="primary" className="flex-1 sm:w-full" onClick={() => onLead?.(business)}>
+          <MessageCircle className="h-4 w-4" /> Get Bulk Quotes
         </Button>
         {whatsappPhone && (
           <WhatsAppButton

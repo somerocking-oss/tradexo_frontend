@@ -23,7 +23,7 @@ export function AboutHero({
         className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-[#FF6C00]/5 blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-8xl">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-neutral-400">
           <Link href="/" className="transition-colors hover:text-[#FF6C00]">

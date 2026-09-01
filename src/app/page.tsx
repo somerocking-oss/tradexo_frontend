@@ -19,6 +19,7 @@ import {
   getFeaturedBusinessesServer,
   getLatestBusinessesServer,
   getTrendingSearchesServer,
+  getCategorySampleBusinessesServer,
 } from "@/lib/api/business-server";
 import { getTopCategoriesCount, getTopCategoriesForHome } from "@/lib/api/category-server";
 import {
@@ -34,6 +35,7 @@ import { HomeTopCities } from "@/components/home/HomeTopCities";
 import { HomeRequirementsSuppliers } from "@/components/home/HomeRequirementsSuppliers";
 import { getLatestRequirementsServer } from "@/lib/api/lead-server";
 import { HomeTrendingProducts } from "@/components/home/HomeTrendingProducts";
+import { HomeIndustrySections } from "@/components/home/HomeIndustrySections";
 import { getTrendingProductsServer } from "@/lib/api/products-server";
 import { HomeIndustrySolutions } from "@/components/home/HomeIndustrySolutions";
 import { fetchAllCategoriesAllPages } from "@/lib/api/category-server";
@@ -82,7 +84,7 @@ async function getHomeCategories(): Promise<Category[]> {
 }
 
 export default async function HomePage() {
-  const [categories, categoryTotal, settings, latestBusinesses, featuredBusinesses, trendingTerms, platformStats, latestRequirements, trendingProducts, allCategories] =
+  const [categories, categoryTotal, settings, latestBusinesses, featuredBusinesses, trendingTerms, platformStats, latestRequirements, trendingProducts, allCategories, industrySections] =
     await Promise.all([
       getHomeCategories(),
       getTopCategoriesCount(),
@@ -94,6 +96,7 @@ export default async function HomePage() {
       getLatestRequirementsServer(8),
       getTrendingProductsServer(8),
       fetchAllCategoriesAllPages(),
+      getCategorySampleBusinessesServer(6, 16),
     ]);
 
   const homepage = settings?.homepage;
@@ -182,11 +185,17 @@ export default async function HomePage() {
       ) : null}
 
       <Reveal variant="fade">
-        <HomeRequirementsSuppliers requirements={latestRequirements} suppliers={featuredBusinesses} />
+        <HomeTrendingProducts products={trendingProducts} />
       </Reveal>
 
+      {/* Not wrapped in <Reveal> — this section stacks many category rows and
+          can be taller than any viewport, so a scroll-triggered reveal keyed
+          to 15% of its *total* area may never cross threshold, leaving real
+          content stuck invisible at opacity-0 while still taking up space. */}
+      <HomeIndustrySections sections={industrySections} />
+
       <Reveal variant="fade">
-        <HomeTrendingProducts products={trendingProducts} />
+        <HomeRequirementsSuppliers requirements={latestRequirements} suppliers={featuredBusinesses} />
       </Reveal>
 
       <Reveal variant="fade">
@@ -242,7 +251,7 @@ export default async function HomePage() {
       {/* Final CTA — split layout with benefit cards */}
       <Reveal variant="fade">
       <section
-        className="relative overflow-hidden px-4 py-8 sm:px-6 sm:py-10"
+        className="relative overflow-hidden px-3 py-8 sm:px-4 sm:py-10"
         aria-labelledby="cta-band-heading"
         style={{
           background: "linear-gradient(135deg, #FF6C00 0%, #E85800 45%, #C94400 100%)",
@@ -265,7 +274,7 @@ export default async function HomePage() {
           aria-hidden
         />
 
-        <div className="relative mx-auto max-w-7xl">
+        <div className="relative mx-auto max-w-8xl">
           <div className="grid items-center gap-8 lg:grid-cols-[1fr_360px] lg:gap-12">
 
             {/* ── Left: headline + CTAs ── */}

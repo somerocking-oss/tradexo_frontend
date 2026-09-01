@@ -31,7 +31,7 @@ export function TrendingSearches({
 
   return (
     <section className="border-b border-neutral-200 bg-[#f8f9fb] py-7">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto max-w-8xl px-3 sm:px-4">
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
           <span className="flex items-center gap-1.5 text-sm font-semibold text-neutral-900">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e8e8e8] text-[#ff6c00]">

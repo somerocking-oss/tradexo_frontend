@@ -1,4 +1,4 @@
-import { RegisterBusinessForm } from "./RegisterBusinessForm";
+import { MinimalRegisterForm } from "./MinimalRegisterForm";
 import { RegisterBusinessHero, RegisterTrustStatsBar } from "./RegisterBusinessHero";
 import { fetchSiteSettings } from "@/lib/cms";
 import {
@@ -25,7 +25,7 @@ export default async function RegisterBusinessPage() {
         trustStats={trustStats}
       />
       <RegisterTrustStatsBar stats={trustStats} />
-      <RegisterBusinessForm registeredToday={platformStats?.registeredToday || 0} />
+      <MinimalRegisterForm />
     </>
   );
 }

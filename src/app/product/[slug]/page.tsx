@@ -5,7 +5,9 @@ import { notFound } from "next/navigation";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { BusinessProfileTabs, type ProfileTab } from "@/components/business/BusinessProfileTabs";
 import { ProductEnquiryActions } from "@/components/business/ProductEnquiryActions";
+import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 import { StickyProductContact } from "@/components/business/StickyProductContact";
+import { FloatingContactButtons } from "@/components/business/FloatingContactButtons";
 import { getProductBySlugServer } from "@/lib/api/products-server";
 import { getProductPath } from "@/lib/product-url";
 import { getBusinessProfilePath } from "@/lib/business-url";
@@ -108,24 +110,11 @@ export default async function ProductPage({
 
       <BusinessProfileTabs tabs={tabs} />
 
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+      <div className="mx-auto max-w-8xl px-4 py-6 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
           {/* ── Left: gallery + details ── */}
           <div id="overview" className="scroll-mt-28">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-neutral-300 bg-neutral-100 sm:aspect-[16/9]">
-              {product.images?.[0]?.url ? (
-                <Image
-                  src={getImageUrl(product.images[0].url)}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 700px"
-                  priority
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-neutral-300">No image available</div>
-              )}
-            </div>
+            <ProductImageGallery images={product.images} productName={product.name} />
 
             <div className="mt-5 flex items-center gap-2">
               <span
@@ -211,6 +200,17 @@ export default async function ProductPage({
             {/* Mobile sticky enquiry bar — spacer keeps content clear of the fixed bar */}
             <div className="h-16 lg:hidden" aria-hidden />
             <StickyProductContact product={product} />
+            {business && (
+              <FloatingContactButtons
+                business={business}
+                initialMessage={`Hi, I'm interested in "${product.name}"${
+                  product.minimumOrderQuantity
+                    ? ` (MOQ: ${product.minimumOrderQuantity}${product.unit ? ` ${product.unit}` : ""})`
+                    : ""
+                }. Please share availability and pricing.`}
+                breakpoint="lg"
+              />
+            )}
 
             {/* Similar products */}
             {similar.length > 0 && (
@@ -231,6 +231,13 @@ export default async function ProductPage({
                         )}
                       </div>
                       <p className="line-clamp-2 text-xs font-medium text-neutral-800">{p.name}</p>
+                      {p.priceType !== "on_request" && p.price ? (
+                        <p className="mt-0.5 text-xs font-bold text-[#FF6C00]">
+                          ₹{p.price.toLocaleString("en-IN")}{p.unit ? ` / ${p.unit}` : ""}
+                        </p>
+                      ) : (
+                        <p className="mt-0.5 text-xs text-neutral-400">Price on Request</p>
+                      )}
                     </Link>
                   ))}
                 </div>
@@ -262,6 +269,40 @@ export default async function ProductPage({
                   <div className="mt-4">
                     <ProductEnquiryActions product={product} />
                   </div>
+
+                  {(business.logo || business.averageRating || business.rating || business.establishmentYear || business.shortDescription || business.description) && (
+                    <div className="mt-5 border-t border-neutral-200 pt-4">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">About the company</p>
+                      <div className="mt-2 flex items-center gap-3">
+                        {business.logo && (
+                          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-white">
+                            <Image src={getImageUrl(business.logo)} alt={business.name} fill className="object-contain" sizes="44px" />
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          {(business.averageRating || business.rating) ? (
+                            <p className="flex items-center gap-1 text-xs font-semibold text-amber-700">
+                              ★ {(business.averageRating ?? business.rating)!.toFixed(1)}
+                            </p>
+                          ) : null}
+                          {business.establishmentYear && (
+                            <p className="text-xs text-neutral-500">Est. {business.establishmentYear}</p>
+                          )}
+                        </div>
+                      </div>
+                      {(business.shortDescription || business.description) && (
+                        <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-neutral-500">
+                          {business.shortDescription || business.description}
+                        </p>
+                      )}
+                      <Link
+                        href={getBusinessProfilePath(business)}
+                        className="mt-2 inline-block text-xs font-semibold text-[#FF6C00] hover:underline"
+                      >
+                        View full profile →
+                      </Link>
+                    </div>
+                  )}
                 </>
               )}
             </div>

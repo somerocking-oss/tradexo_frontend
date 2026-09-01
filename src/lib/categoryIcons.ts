@@ -1,0 +1,91 @@
+import {
+  Building2,
+  Car,
+  Cpu,
+  Factory,
+  FlaskConical,
+  Gem,
+  Gift,
+  HardHat,
+  HeartPulse,
+  Laptop,
+  Leaf,
+  Megaphone,
+  Package,
+  Shirt,
+  Sofa,
+  Sparkles,
+  Store,
+  Truck,
+  UtensilsCrossed,
+  Warehouse,
+  Wheat,
+  Wrench,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+
+/** Keyword → icon map shared by every category-browsing surface (homepage
+ * grid, industry sections, nav mega-menu) so icon choices never drift. */
+const ICON_MAP: Record<string, LucideIcon> = {
+  manufacturer: Factory,
+  manufacturers: Factory,
+  wholesaler: Warehouse,
+  wholesalers: Warehouse,
+  distributor: Truck,
+  distributors: Truck,
+  electronic: Cpu,
+  electrical: Zap,
+  computer: Laptop,
+  "it &": Laptop,
+  hardware: Laptop,
+  software: Laptop,
+  textile: Shirt,
+  apparel: Shirt,
+  garment: Shirt,
+  fashion: Shirt,
+  packaging: Package,
+  construction: HardHat,
+  infrastructure: HardHat,
+  civil: HardHat,
+  food: UtensilsCrossed,
+  retail: Store,
+  agriculture: Wheat,
+  farming: Wheat,
+  automotive: Car,
+  vehicle: Car,
+  chemical: FlaskConical,
+  dye: FlaskConical,
+  ayurved: Leaf,
+  herbal: Leaf,
+  health: HeartPulse,
+  medical: HeartPulse,
+  wellness: HeartPulse,
+  beauty: Sparkles,
+  cosmetic: Sparkles,
+  "personal care": Sparkles,
+  furniture: Sofa,
+  furnishing: Sofa,
+  interior: Building2,
+  architecture: Building2,
+  power: Zap,
+  energy: Zap,
+  marketing: Megaphone,
+  advertising: Megaphone,
+  jewel: Gem,
+  gems: Gem,
+  gift: Gift,
+  corporate: Gift,
+  // Generic, low-specificity keywords last so a more specific match
+  // (e.g. "medical" in "Healthcare & Medical Services") wins first.
+  service: Wrench,
+  tool: Wrench,
+};
+
+export function resolveIcon(name: string): LucideIcon {
+  const key = name.toLowerCase();
+  for (const [k, icon] of Object.entries(ICON_MAP)) {
+    if (key.includes(k)) return icon;
+  }
+  return Store;
+}

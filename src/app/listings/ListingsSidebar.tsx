@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import {
+  ChevronRight,
   Factory,
   HardHat,
   MapPin,
@@ -63,12 +65,30 @@ export function ListingsSidebar({
     emoji: cat.icon,
   }));
 
+  const categoryListRef = useRef<HTMLUListElement>(null);
+  const activeItemRef = useRef<HTMLLIElement>(null);
+
+  // scrollIntoView() walks every scrollable ancestor (including the page),
+  // which produces inconsistent results inside this sticky sidebar — so the
+  // scroll offset for the active item is computed and applied directly.
+  useEffect(() => {
+    const list = categoryListRef.current;
+    const item = activeItemRef.current;
+    if (!list || !item) return;
+    const itemBottom = item.offsetTop + item.offsetHeight;
+    if (itemBottom > list.clientHeight) {
+      list.scrollTop = itemBottom - list.clientHeight;
+    } else if (item.offsetTop < list.scrollTop) {
+      list.scrollTop = item.offsetTop;
+    }
+  }, [activeCategoryId, categoryItems.length]);
+
   return (
     <aside className="space-y-5">
       {categoryItems.length > 0 ? (
       <div className="rounded-2xl border border-neutral-400 bg-white p-4 shadow-sm">
         <h2 className="text-sm font-bold text-[#111]">Browse by Category</h2>
-        <ul className="mt-3 max-h-80 space-y-0.5 overflow-y-auto pr-1">
+        <ul ref={categoryListRef} className="mt-3 max-h-80 space-y-0.5 overflow-y-auto pr-1">
           {categoryItems.map((item) => {
             const active = activeCategoryId && item.id === activeCategoryId;
             const content = (
@@ -81,15 +101,18 @@ export function ListingsSidebar({
                   )}
                   <span className="truncate text-sm text-[#333]">{item.name}</span>
                 </span>
-                {item.count ? (
-                  <span className="shrink-0 text-xs font-medium text-[#999]">{item.count}</span>
-                ) : null}
+                <span className="flex shrink-0 items-center gap-1.5">
+                  {item.count ? (
+                    <span className="text-xs font-medium text-[#999]">{item.count}</span>
+                  ) : null}
+                  <ChevronRight className="h-3.5 w-3.5 text-[#ccc]" aria-hidden />
+                </span>
               </>
             );
 
             if (onCategorySelect && item.id) {
               return (
-                <li key={item.id}>
+                <li key={item.id} ref={active ? activeItemRef : undefined}>
                   <button
                     type="button"
                     onClick={() => onCategorySelect(String(item.id))}
@@ -104,7 +127,7 @@ export function ListingsSidebar({
             }
 
             return (
-              <li key={item.id}>
+              <li key={item.id} ref={active ? activeItemRef : undefined}>
                 <Link
                   href={item.href}
                   className={`flex items-center justify-between rounded-lg px-2 py-2 transition hover:bg-[#EAF2FB] ${

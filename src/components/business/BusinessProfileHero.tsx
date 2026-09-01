@@ -83,7 +83,7 @@ export function BusinessProfileHero({ business }: { business: Business }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto max-w-8xl px-3 sm:px-4">
         <div className="-mt-14 relative z-10 pb-6 sm:-mt-16">
           <div className="rounded-2xl border border-neutral-400 bg-white p-5 shadow-lg sm:p-7">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">

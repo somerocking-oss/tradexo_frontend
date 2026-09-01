@@ -82,8 +82,8 @@ export function CityCategories({ section }: { section?: CityCategoriesSection })
   }, [section?.categoryGroups, activeCity]);
 
   return (
-    <section className="bg-white px-4 py-16 sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-white px-3 py-16 sm:px-4">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="home-eyebrow">{config.eyebrow}</span>

@@ -71,8 +71,8 @@ export function WhyChooseUs({ section }: { section?: WhyChooseUsSection }) {
   };
 
   return (
-    <section className="home-section-soft px-4 py-16 sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <section className="home-section-soft px-3 py-16 sm:px-4">
+      <div className="mx-auto max-w-8xl">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           <div>
             <span className="home-eyebrow">{data.eyebrow}</span>

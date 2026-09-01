@@ -84,7 +84,7 @@ export function AdvertiseContent({ page, settings }: AdvertiseContentProps) {
 
   return (
     <div className="bg-neutral-50 px-4 py-12 sm:px-6 sm:py-16">
-      <div className="mx-auto max-w-7xl space-y-10">
+      <div className="mx-auto max-w-8xl space-y-10">
 
         {/* Ad products */}
         <section>

@@ -48,8 +48,8 @@ export function HomeLatestListings({
   });
 
   return (
-    <section className="home-section-muted px-4 py-12 sm:px-6 sm:py-14">
-      <div className="mx-auto max-w-7xl">
+    <section className="home-section-muted px-3 py-12 sm:px-4 sm:py-14">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="home-eyebrow">{data.eyebrow}</span>

@@ -39,7 +39,7 @@ export function TrustStatsBar({
   if (variant === "inline") {
     return (
       <div className={`border-b border-[#E5E5E5] bg-white ${className}`}>
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-3 px-4 py-3.5 sm:px-6">
+        <div className="mx-auto flex max-w-8xl flex-wrap items-center justify-center gap-x-6 gap-y-3 px-4 py-3.5 sm:px-6">
           {stats.map(({ icon, value, label }) => {
             const Icon = resolveIcon(icon);
             return (
@@ -76,7 +76,7 @@ export function TrustStatsBar({
 
   return (
     <div className={`border-b border-[#E5E5E5] bg-white ${className}`}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto max-w-8xl px-3 sm:px-4">
         <div className="grid grid-cols-2 divide-x divide-[#F5F5F5] sm:grid-cols-4">
           {stats.slice(0, 4).map(({ icon, value, label }) => {
             const Icon = resolveIcon(icon);

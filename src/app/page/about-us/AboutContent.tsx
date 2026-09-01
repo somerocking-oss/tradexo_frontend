@@ -85,7 +85,7 @@ export function AboutContent({ page, settings }: AboutContentProps) {
 
   return (
     <div className="bg-neutral-50 px-4 py-12 sm:px-6 sm:py-16">
-      <div className="mx-auto max-w-7xl space-y-10">
+      <div className="mx-auto max-w-8xl space-y-10">
 
         {/* Stats row */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

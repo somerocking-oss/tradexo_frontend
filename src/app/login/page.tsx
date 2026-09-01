@@ -81,11 +81,11 @@ function OtpBoxes({
           onChange={(e) => handleChange(i, e)}
           onFocus={(e) => e.target.select()}
           className={[
-            "h-12 w-10 rounded-lg border text-center text-lg font-semibold transition-colors outline-none",
+            "h-12 w-10 rounded-lg border-2 text-center text-lg font-bold transition-all duration-150 outline-none sm:h-14 sm:w-12",
             "border-neutral-300 bg-white text-neutral-900",
-            "focus:border-[#FF6C00] focus:ring-2 focus:ring-[#FF6C00]/20",
+            "focus:border-[#FF6C00] focus:ring-2 focus:ring-[#FF6C00]/20 focus:scale-[1.05]",
             "disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400",
-            digit ? "border-[#FF6C00]/40 bg-[#F0F0F0]" : "",
+            digit ? "border-[#FF6C00] bg-[#FFF3E8]" : "",
           ]
             .filter(Boolean)
             .join(" ")}
@@ -407,9 +407,30 @@ function LoginForm() {
       <BrandPanel />
 
       {/* ── Right form panel ── */}
-      <div className="flex flex-1 flex-col bg-neutral-200">
+      <div className="relative flex flex-1 flex-col overflow-hidden bg-[#F4F6F8]">
+        {/* Decorative branded background */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-[0.07]"
+          style={{ background: "radial-gradient(circle at center, #FF6C00 0%, transparent 70%)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full opacity-[0.06]"
+          style={{ background: "radial-gradient(circle at center, #0B3B6F 0%, transparent 70%)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(11,59,111,1) 1px, transparent 1px), linear-gradient(90deg, rgba(11,59,111,1) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+
         {/* Top bar */}
-        <div className="flex items-center justify-between px-6 pt-6 pb-0 sm:px-10">
+        <div className="relative flex items-center justify-between px-4 pt-4 pb-0 sm:px-6">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 hover:text-[#FF6C00] transition-colors"
@@ -429,15 +450,32 @@ function LoginForm() {
           </div>
         </div>
 
+        {/* Trust strip — mobile only, desktop already has BrandPanel's stats */}
+        <div className="relative mt-4 flex items-center justify-center gap-2 px-4 lg:hidden">
+          <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#16A34A] opacity-50" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#16A34A]" />
+          </span>
+          <span className="text-xs font-semibold text-neutral-500">
+            Trusted by thousands of verified businesses across India
+          </span>
+        </div>
+
+        {/* Step progress */}
+        <div className="relative mx-auto mt-6 flex w-full max-w-sm items-center gap-2 px-4">
+          <div className={`h-1 flex-1 rounded-full transition-colors duration-300 ${step === "mobile" || step === "otp" ? "bg-[#FF6C00]" : "bg-neutral-200"}`} />
+          <div className={`h-1 flex-1 rounded-full transition-colors duration-300 ${step === "otp" ? "bg-[#FF6C00]" : "bg-neutral-200"}`} />
+        </div>
+
         {/* Centered form */}
-        <div className="flex flex-1 items-center justify-center px-4 py-12">
+        <div className="relative flex flex-1 items-center justify-center px-4 py-8">
           <div className="w-full max-w-sm">
             {step === "mobile" ? (
               /* ── Step 1: Phone ── */
               <div className="animate-[fadeIn_200ms_ease-out]">
                 <div className="mb-8">
                   {/* Icon */}
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#E5E5E5]">
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FFD9B0] bg-[#FFF3E8]">
                     {otpChannel === "whatsapp" ? (
                       <FaWhatsapp className="h-5 w-5 text-[#FF6C00]" />
                     ) : (
@@ -457,15 +495,15 @@ function LoginForm() {
                 </div>
 
                 {/* Card */}
-                <div className="rounded-xl border border-neutral-100 bg-white p-6 shadow-sm">
+                <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.06)] sm:p-7">
                   <form onSubmit={handleSendOtp} className="space-y-5">
                     {/* Phone input */}
                     <div className="space-y-1.5">
                       <label className="block text-sm font-medium text-neutral-700">
                         Mobile Number
                       </label>
-                      <div className="flex gap-2">
-                        <span className="flex h-10 shrink-0 items-center rounded-lg border border-neutral-300 bg-neutral-50 px-3 text-sm font-medium text-neutral-600">
+                      <div className="flex h-11 items-stretch overflow-hidden rounded-lg border border-neutral-300 bg-white transition-colors focus-within:border-[#FF6C00] focus-within:ring-2 focus-within:ring-[#FF6C00]/20">
+                        <span className="flex shrink-0 items-center border-r border-neutral-200 bg-neutral-50 px-3 text-sm font-semibold text-neutral-600">
                           +91
                         </span>
                         <input
@@ -481,7 +519,7 @@ function LoginForm() {
                           maxLength={10}
                           required
                           disabled={loading}
-                          className="h-10 w-full rounded-lg border border-neutral-300 px-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none transition-colors focus:border-[#FF6C00] focus:ring-2 focus:ring-[#FF6C00]/20 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
+                          className="h-full w-full px-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none transition-colors disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
                         />
                       </div>
                     </div>
@@ -548,7 +586,7 @@ function LoginForm() {
                     <button
                       type="submit"
                       disabled={loading || mobile.length !== 10}
-                      className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#FF6C00] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#E86200] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#FF6C00] px-4 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(255,108,0,0.3)] transition-all duration-200 ease-out hover:bg-[#E86200] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
                     >
                       {loading ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -585,7 +623,7 @@ function LoginForm() {
               /* ── Step 2: OTP ── */
               <div className="animate-[fadeIn_200ms_ease-out]">
                 <div className="mb-8">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#E5E5E5]">
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FFD9B0] bg-[#FFF3E8]">
                     {sentChannel === "whatsapp" ? (
                       <FaWhatsapp className="h-5 w-5 text-[#FF6C00]" />
                     ) : (
@@ -605,7 +643,7 @@ function LoginForm() {
                 </div>
 
                 {/* Card */}
-                <div className="rounded-xl border border-neutral-100 bg-white p-6 shadow-sm">
+                <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.06)] sm:p-7">
                   <form onSubmit={handleVerifyOtp} className="space-y-5">
                     {/* OTP boxes */}
                     <div className="space-y-2">
@@ -633,7 +671,7 @@ function LoginForm() {
                     <button
                       type="submit"
                       disabled={loading || otp.replace(/\D/g, "").length !== 6}
-                      className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#FF6C00] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#E86200] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#FF6C00] px-4 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(255,108,0,0.3)] transition-all duration-200 ease-out hover:bg-[#E86200] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
                     >
                       {loading ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -692,7 +730,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-neutral-200">
+        <div className="flex min-h-screen items-center justify-center bg-[#F4F6F8]">
           <div className="flex flex-col items-center gap-3">
             <div className="h-10 w-10 animate-pulse rounded-xl bg-neutral-200" />
             <div className="h-4 w-32 animate-pulse rounded-md bg-neutral-200" />

@@ -20,7 +20,7 @@ export function DashboardLayoutClient({ children }: { children: React.ReactNode 
       <div className="min-h-screen bg-slate-100" role="status" aria-busy="true" aria-label="Loading seller portal">
         {/* Header skeleton */}
         <div className="sticky top-0 z-40 border-b border-slate-200 bg-white">
-          <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
+          <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-3 sm:px-4">
             <div className="h-8 w-32 animate-pulse rounded-lg bg-slate-100" />
             <div className="h-8 w-24 animate-pulse rounded-lg bg-slate-100" />
           </div>

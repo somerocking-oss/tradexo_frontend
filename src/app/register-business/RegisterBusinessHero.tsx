@@ -59,7 +59,7 @@ export function RegisterBusinessHero({
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:py-12">
+      <div className="relative mx-auto max-w-8xl px-4 py-8 sm:px-6 sm:py-10 lg:py-12">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-center gap-1 text-xs text-[#888]">
           <Link href="/" className="transition hover:text-[#ff6c00]">
             Home

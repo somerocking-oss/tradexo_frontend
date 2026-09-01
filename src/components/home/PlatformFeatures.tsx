@@ -97,8 +97,8 @@ export function PlatformFeatures({ section }: { section?: FeaturesSection }) {
   };
 
   return (
-    <section className="home-section-muted px-4 py-14 sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <section className="home-section-muted px-3 py-14 sm:px-4">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-10 text-center">
           <span className="home-eyebrow mx-auto before:hidden sm:before:inline-block">Features</span>
           <h2 className="home-section-title">{config.title}</h2>

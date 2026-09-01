@@ -23,10 +23,22 @@ async function fetchSubCategoryRecord(
   }
 }
 
+// Next.js does not URI-decode dynamic route segments, so a slug containing
+// an encoded char (e.g. "&" in "Bags, Handicrafts & Fashion Accessories")
+// arrives as literal "%26" text. Decode it once here so it isn't re-encoded
+// downstream.
+function decodeSlug(slug: string) {
+  try {
+    return decodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
+}
+
 export const getSubCategoryBySlug = cache(
   async (slug: string, categoryId?: string): Promise<SubCategory | null> => {
     if (!slug?.trim()) return null;
-    return fetchSubCategoryRecord(slug.trim().toLowerCase(), categoryId);
+    return fetchSubCategoryRecord(decodeSlug(slug.trim()).toLowerCase(), categoryId);
   }
 );
 

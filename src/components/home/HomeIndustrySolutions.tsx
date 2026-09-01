@@ -85,8 +85,8 @@ export function HomeIndustrySolutions({ categories = [] }: { categories?: Catego
   if (!tiles.length) return null;
 
   return (
-    <section className="bg-neutral-200 px-4 py-12 sm:px-6 sm:py-14" aria-labelledby="industry-solutions-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-neutral-200 px-3 py-12 sm:px-4 sm:py-14" aria-labelledby="industry-solutions-heading">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-8">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#A3A3A3]">
             Industry Solutions

@@ -16,7 +16,7 @@ export function AdvertiseHero({ title = "Advertise on Tradexo" }: { title?: stri
         className="pointer-events-none absolute -bottom-12 left-1/3 h-56 w-56 rounded-full bg-[#FF6C00]/4 blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-8xl">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-neutral-400">
           <Link href="/" className="transition-colors hover:text-[#FF6C00]">

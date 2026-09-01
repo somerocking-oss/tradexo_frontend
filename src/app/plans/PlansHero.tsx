@@ -30,7 +30,7 @@ export function PlansHero({
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(255,108,0,0.06),transparent)]"
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-8xl">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-1 text-xs text-neutral-400">
           <Link href="/" className="transition-colors hover:text-[#FF6C00]">

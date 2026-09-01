@@ -208,10 +208,10 @@ export function BuyerSellerHub({ section }: { section?: BuyerSellerHubSection })
 
   return (
     <section
-      className="bg-[#F4F6F9] px-4 py-12 sm:px-6 sm:py-14"
+      className="bg-[#F4F6F9] px-3 py-12 sm:px-4 sm:py-14"
       aria-labelledby="hub-heading"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-8xl">
         {/* Section header */}
         <div className="mb-10 text-center">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#D4D4D4] bg-[#F0F0F0] px-3.5 py-1.5">

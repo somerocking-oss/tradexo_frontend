@@ -35,7 +35,7 @@ export function TrustBar({ stats }: { stats?: TrustStat[] }) {
 
   return (
     <section className="home-section-dark border-y border-black/20 py-8">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 sm:grid-cols-4 sm:gap-8 sm:px-6">
+      <div className="mx-auto grid max-w-8xl grid-cols-2 gap-6 px-3 sm:grid-cols-4 sm:gap-8 sm:px-4">
         {items.map((item, index) => {
           const Icon = resolveIcon(item.icon, index);
           return (

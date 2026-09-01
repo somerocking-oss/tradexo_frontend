@@ -8,6 +8,7 @@ import { BusinessProfileHero } from "@/components/business/BusinessProfileHero";
 import { BusinessProfileTabs, type ProfileTab } from "@/components/business/BusinessProfileTabs";
 import { BusinessCatalogSection } from "@/components/business/BusinessCatalogSection";
 import { StickyBusinessContact } from "@/components/business/StickyBusinessContact";
+import { FloatingContactButtons } from "@/components/business/FloatingContactButtons";
 import { BusinessReviews } from "@/components/business/BusinessReviews";
 import { SimilarBusinesses } from "@/components/business/SimilarBusinesses";
 import { BusinessFAQSection } from "@/components/business/BusinessFAQSection";
@@ -190,7 +191,7 @@ export default async function BusinessPage({
           aria-label="Breadcrumb"
           className="border-b border-neutral-400 bg-white px-4 py-2.5 text-xs text-[#888] sm:px-6"
         >
-          <ol className="mx-auto flex max-w-7xl flex-wrap items-center gap-1">
+          <ol className="mx-auto flex max-w-8xl flex-wrap items-center gap-1">
             <li><Link href="/" className="hover:text-[#ff6600]">Home</Link></li>
             <li aria-hidden>/</li>
             <li><Link href="/listings" className="hover:text-[#ff6600]">Listings</Link></li>
@@ -223,7 +224,7 @@ export default async function BusinessPage({
 
         <BusinessProfileTabs tabs={tabs} />
 
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        <div className="mx-auto max-w-8xl px-4 py-8 sm:px-6">
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
               {hasOverview && (
@@ -368,6 +369,7 @@ export default async function BusinessPage({
       </div>
 
       <StickyBusinessContact business={business} />
+      <FloatingContactButtons business={business} />
 
       <script
         type="application/ld+json"

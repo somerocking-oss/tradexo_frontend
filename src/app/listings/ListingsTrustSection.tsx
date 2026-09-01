@@ -20,7 +20,7 @@ const ITEMS = [
 export function ListingsTrustSection() {
   return (
     <section className="border-t border-neutral-400 bg-neutral-200 px-4 py-10 sm:px-6 sm:py-12">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-8xl">
         <h2 className="mb-8 text-center text-xl font-bold text-[#111] sm:text-2xl">
           Why Businesses Trust Tradexo
         </h2>

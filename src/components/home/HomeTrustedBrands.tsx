@@ -20,10 +20,10 @@ export function HomeTrustedBrands({ businesses = [] }: { businesses?: Business[]
 
   return (
     <section
-      className="bg-white px-4 py-14 sm:px-6 sm:py-16"
+      className="bg-white px-3 py-14 sm:px-4 sm:py-16"
       aria-labelledby="trusted-brands-heading"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-8xl">
         {/* Section header */}
         <div className="mb-10 text-center">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#E8E8E8] bg-[#F5F5F5] px-3.5 py-1.5">

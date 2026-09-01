@@ -49,7 +49,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-slate-100">
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-[#0B3B6F]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-3 sm:px-4">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 font-bold text-white">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#ff6c00] text-white">

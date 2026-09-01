@@ -540,7 +540,7 @@ export function PostRequirementForm({
 
   return (
     <div className="bg-neutral-200 px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-8xl">
         <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:items-start">
 
           {/* ── LEFT COLUMN: form ─────────────────────────────────────── */}

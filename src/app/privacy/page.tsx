@@ -95,7 +95,7 @@ export default async function PrivacyPage() {
     <MainLayout>
       {/* Page header */}
       <div className="border-b border-neutral-100 bg-gradient-to-br from-[#F0F0F0] via-[#E5E5E5]/30 to-white px-4 py-12 sm:px-6 sm:py-16">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-8xl">
           <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5 text-xs text-neutral-400">
             <Link href="/" className="transition-colors hover:text-[#FF6C00]">
               Home
@@ -118,7 +118,7 @@ export default async function PrivacyPage() {
 
       {/* Document layout */}
       <div className="bg-neutral-50 px-4 py-10 sm:px-6 sm:py-14">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-8xl">
           <div className="lg:grid lg:grid-cols-4 lg:gap-10">
 
             {/* Sticky ToC — desktop only */}

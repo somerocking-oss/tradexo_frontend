@@ -30,8 +30,8 @@ export function HomeSection({
   variant = "white",
 }: HomeSectionProps) {
   return (
-    <section id={id} className={cn("px-4 sm:px-6", VARIANT_CLASS[variant], className)}>
-      <div className={cn("mx-auto max-w-7xl", innerClassName)}>{children}</div>
+    <section id={id} className={cn("px-3 sm:px-4", VARIANT_CLASS[variant], className)}>
+      <div className={cn("mx-auto max-w-8xl", innerClassName)}>{children}</div>
     </section>
   );
 }

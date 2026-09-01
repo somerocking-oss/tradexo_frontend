@@ -11,7 +11,7 @@ const STEPS = [
 export function PostRequirementHero() {
   return (
     <div className="border-b border-neutral-100 bg-white px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-8xl">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F0F0F0] px-3 py-1 text-xs font-semibold text-[#FF6C00]">
             <FileText className="h-3.5 w-3.5" aria-hidden />

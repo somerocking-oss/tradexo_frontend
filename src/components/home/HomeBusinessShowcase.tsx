@@ -114,8 +114,8 @@ export function HomeBusinessShowcase({
   if (!initialLatest.length && !initialFeatured.length) return null;
 
   return (
-    <section className="home-section-muted px-4 py-12 sm:px-6 sm:py-14">
-      <div className="home-showcase-tabs mx-auto max-w-7xl">
+    <section className="home-section-muted px-3 py-12 sm:px-4 sm:py-14">
+      <div className="home-showcase-tabs mx-auto max-w-8xl">
         <input
           type="radio"
           name="home-showcase-tab"

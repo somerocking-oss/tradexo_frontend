@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BulkImportCatalog } from "@/components/dashboard/BulkImportCatalog";
 import { cn } from "@/lib/utils";
 import { getImageUrl } from "@/lib/utils";
 import {
@@ -816,14 +817,20 @@ export function ProductsManager({ businessId }: { businessId: string }) {
           </p>
         </div>
         {!showAddForm && (
-          <Button
-            type="button"
-            size="sm"
-            onClick={() => setShowAddForm(true)}
-            className="gap-1.5 bg-[#FF6C00] text-white hover:bg-[#E86200]"
-          >
-            <Plus className="h-4 w-4" /> Add Product / Service
-          </Button>
+          <div className="flex items-center gap-2">
+            <BulkImportCatalog
+              businessId={businessId}
+              onImported={(items) => setProducts((prev) => [...items, ...prev])}
+            />
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => setShowAddForm(true)}
+              className="gap-1.5 bg-[#FF6C00] text-white hover:bg-[#E86200]"
+            >
+              <Plus className="h-4 w-4" /> Add Product / Service
+            </Button>
+          </div>
         )}
       </div>
 
@@ -853,14 +860,20 @@ export function ProductsManager({ businessId }: { businessId: string }) {
           <Package className="mx-auto mb-3 h-8 w-8 text-neutral-300" />
           <p className="text-sm font-medium text-neutral-600">No products or services listed yet</p>
           <p className="mt-0.5 text-xs text-neutral-400">Add items buyers can browse and get quotes for</p>
-          <Button
-            type="button"
-            size="sm"
-            className="mt-4 gap-1.5 bg-[#FF6C00] text-white hover:bg-[#E86200]"
-            onClick={() => setShowAddForm(true)}
-          >
-            <Plus className="h-4 w-4" /> Add Your First Item
-          </Button>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <BulkImportCatalog
+              businessId={businessId}
+              onImported={(items) => setProducts((prev) => [...items, ...prev])}
+            />
+            <Button
+              type="button"
+              size="sm"
+              className="gap-1.5 bg-[#FF6C00] text-white hover:bg-[#E86200]"
+              onClick={() => setShowAddForm(true)}
+            >
+              <Plus className="h-4 w-4" /> Add Your First Item
+            </Button>
+          </div>
         </div>
       ) : null}
     </div>

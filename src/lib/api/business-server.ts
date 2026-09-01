@@ -27,6 +27,27 @@ async function fetchBusinessesServer(params: Record<string, string | number | bo
   }
 }
 
+export interface CategorySampleSection {
+  category: { _id: string; name: string; slug: string; icon?: string };
+  businesses: Business[];
+}
+
+export const getCategorySampleBusinessesServer = cache(
+  async (itemsPerCategory = 6, categoriesLimit = 16): Promise<CategorySampleSection[]> => {
+    try {
+      const res = await fetch(
+        `${API}/api/v1/businesses/category-samples?itemsPerCategory=${itemsPerCategory}&categoriesLimit=${categoriesLimit}`,
+        { next: { revalidate: 300 }, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) }
+      );
+      if (!res.ok) return [];
+      const json = await res.json();
+      return Array.isArray(json.data) ? json.data : [];
+    } catch {
+      return [];
+    }
+  }
+);
+
 export const getBusinessByIdServer = cache(async (id: string): Promise<Business | null> => {
   try {
     const res = await fetch(`${API}/api/v1/businesses/${id}`, {

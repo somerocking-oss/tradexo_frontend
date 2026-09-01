@@ -29,7 +29,7 @@ export function ProfileHero({
 
   return (
     <div className="border-b border-neutral-100 bg-white px-4 py-8 sm:px-6 sm:py-10">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-8xl">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-center gap-1 text-xs text-neutral-400">
           <Link href="/" className="transition-colors hover:text-[#FF6C00]">
             Home
@@ -119,7 +119,7 @@ export function ProfileHero({
 export function ProfileHeroSkeleton() {
   return (
     <div className="border-b border-neutral-100 bg-white px-4 py-8 sm:px-6 sm:py-10">
-      <div className="mx-auto max-w-7xl animate-pulse">
+      <div className="mx-auto max-w-8xl animate-pulse">
         <div className="mb-5 h-3 w-32 rounded-full bg-neutral-200" />
         <div className="flex gap-4">
           <div className="h-20 w-20 rounded-2xl bg-neutral-200" />

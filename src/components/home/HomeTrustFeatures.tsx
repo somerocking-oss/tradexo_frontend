@@ -22,8 +22,8 @@ const ITEMS: { label: string; icon: LucideIcon }[] = [
 
 export function HomeTrustFeatures() {
   return (
-    <section className="border-b border-[#1F3A63] bg-[#0F1E3D] px-4 py-10 sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-b border-[#1F3A63] bg-[#0F1E3D] px-3 py-10 sm:px-4">
+      <div className="mx-auto max-w-8xl">
         <h2 className="mb-6 text-center text-xl font-bold tracking-tight text-white sm:text-2xl">
           Why Choose Tradexo?
         </h2>

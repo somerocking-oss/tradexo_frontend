@@ -18,6 +18,7 @@ import { extractBusinessList, getMyBusinesses } from "@/lib/api/business";
 import { fetchSubCategoriesForCategory } from "@/lib/api/subcategory";
 import { subCategoryToSlug } from "@/lib/api/subcategory-server";
 import { buildListingsCategoryPath, categoryToSlug } from "@/lib/listings-url";
+import { resolveIcon } from "@/lib/categoryIcons";
 import type { Category, SubCategory } from "@/types";
 
 /* ─── SSR-safe auth gate ──────────────────────────────────────────────────── */
@@ -119,7 +120,7 @@ function CategoryMegaMenu({ categories }: { categories: Category[] }) {
         href="/categories"
         onFocus={() => setOpen(true)}
         className={cn(
-          "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium",
+          "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium",
           "transition-all duration-200 ease-out",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6C00]/40",
           "text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
@@ -142,7 +143,9 @@ function CategoryMegaMenu({ categories }: { categories: Category[] }) {
         >
           {/* Category list */}
           <div className="max-h-[420px] w-56 shrink-0 overflow-y-auto border-r border-neutral-100 bg-neutral-50/60 py-2">
-            {categories.map((cat) => (
+            {categories.map((cat) => {
+              const Icon = resolveIcon(cat.name);
+              return (
               <Link
                 key={cat._id}
                 href={buildListingsCategoryPath(categoryToSlug(cat))}
@@ -154,10 +157,11 @@ function CategoryMegaMenu({ categories }: { categories: Category[] }) {
                     : "text-neutral-600 hover:bg-white hover:text-neutral-900"
                 )}
               >
-                {cat.icon && <span aria-hidden>{cat.icon}</span>}
+                <Icon className="h-3.5 w-3.5 shrink-0 text-[#FF6C00]" strokeWidth={1.75} aria-hidden />
                 <span className="line-clamp-1">{cat.name}</span>
               </Link>
-            ))}
+              );
+            })}
             <Link
               href="/categories"
               className="mt-1 block px-4 py-2 text-sm font-semibold text-[#FF6C00] hover:underline"
@@ -276,7 +280,7 @@ export function Navbar({
           "shadow-[0_1px_3px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.05)]"
         )}
       >
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4 sm:gap-4 sm:px-6">
+        <div className="mx-auto flex h-14 max-w-8xl items-center gap-2 px-1.5 sm:gap-2.5 sm:px-2">
 
           {/* Logo */}
           <Link
@@ -312,7 +316,7 @@ export function Navbar({
                   key={`${link.href}-${link.label}`}
                   href={link.href || "#"}
                   className={cn(
-                    "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium",
+                    "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium",
                     "transition-all duration-200 ease-out",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6C00]/40",
                     active

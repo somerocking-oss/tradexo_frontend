@@ -5,6 +5,7 @@ import { Clock, MapPin, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VerifiedBadge } from "@/components/business/VerifiedBadge";
 import { getBusinessProfilePath } from "@/lib/business-url";
+import { useAuth } from "@/context/AuthContext";
 import type { PublicRequirement } from "@/lib/api/lead-server";
 import type { Business } from "@/types";
 
@@ -32,11 +33,14 @@ export function HomeRequirementsSuppliers({
   requirements?: PublicRequirement[];
   suppliers?: Business[];
 }) {
+  const { isAuthenticated } = useAuth();
+  const respondHref = isAuthenticated ? "/dashboard/leads" : "/login?redirect=/dashboard/leads";
+
   if (!requirements.length && !suppliers.length) return null;
 
   return (
-    <section className="border-b border-sky-200 bg-sky-50 px-4 py-12 sm:px-6 sm:py-14">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
+    <section className="border-b border-sky-200 bg-sky-50 px-3 py-12 sm:px-4 sm:py-14">
+      <div className="mx-auto grid max-w-8xl gap-8 lg:grid-cols-2">
         {/* Recent Buy Requirements */}
         <div>
           <div className="mb-4 flex items-end justify-between gap-3">
@@ -67,7 +71,7 @@ export function HomeRequirementsSuppliers({
                     {timeAgo(req.createdAt)}
                   </p>
                 </div>
-                <Button href="/register-business" size="sm" className="shrink-0 bg-[#FF6C00] text-white hover:bg-[#E86200]">
+                <Button href={respondHref} size="sm" className="shrink-0 bg-[#FF6C00] text-white hover:bg-[#E86200]">
                   Send Quote
                 </Button>
               </div>

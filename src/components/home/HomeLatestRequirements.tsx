@@ -25,8 +25,8 @@ export function HomeLatestRequirements({ requirements = [] }: { requirements?: P
   if (!requirements.length) return null;
 
   return (
-    <section className="bg-white px-4 py-12 sm:px-6 sm:py-14" aria-labelledby="latest-requirements-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-white px-3 py-12 sm:px-4 sm:py-14" aria-labelledby="latest-requirements-heading">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#A3A3A3]">

@@ -1,48 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ArrowRight,
-  Cpu,
-  Factory,
-  Grid3X3,
-  HardHat,
-  Package,
-  Shirt,
-  Store,
-  Truck,
-  UtensilsCrossed,
-  Warehouse,
-  Wrench,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { ArrowRight, Grid3X3 } from "lucide-react";
 import type { Category } from "@/types";
 import { buildListingsUrl, categoryToSlug } from "@/lib/listings-url";
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  manufacturer: Factory,
-  manufacturers: Factory,
-  wholesaler: Warehouse,
-  wholesalers: Warehouse,
-  distributor: Truck,
-  distributors: Truck,
-  electronics: Cpu,
-  textile: Shirt,
-  textiles: Shirt,
-  packaging: Package,
-  construction: HardHat,
-  food: UtensilsCrossed,
-  retail: Store,
-  service: Wrench,
-};
-
-function resolveIcon(name: string): LucideIcon {
-  const key = name.toLowerCase();
-  for (const [k, icon] of Object.entries(ICON_MAP)) {
-    if (key.includes(k)) return icon;
-  }
-  return Store;
-}
+import { resolveIcon } from "@/lib/categoryIcons";
 
 function formatCount(count?: number) {
   if (!count || count <= 0) return null;
@@ -69,16 +31,15 @@ export function HomeExploreCategories({
           name: cat.name,
           count: formatCount(cat.businessCount) || (cat.subCategoryCount ? `${cat.subCategoryCount} types` : null),
           href: buildListingsUrl({ categorySlug: categoryToSlug(cat) }),
-          icon: cat.icon ? null : resolveIcon(cat.name),
-          emoji: cat.icon,
+          icon: resolveIcon(cat.name),
         }))
       : [];
 
   if (!items.length) return null;
 
   return (
-    <section className="border-b border-sky-200 bg-sky-50 px-4 py-16 sm:px-6 sm:py-20" aria-labelledby="categories-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-b border-sky-200 bg-sky-50 px-3 py-16 sm:px-4 sm:py-20" aria-labelledby="categories-heading">
+      <div className="mx-auto max-w-8xl">
         {/* Section header */}
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
@@ -113,18 +74,14 @@ export function HomeExploreCategories({
           {items.length === 0 ? (
             <p className="col-span-full py-8 text-center text-sm text-[#525252]">No categories available yet.</p>
           ) : (
-            items.map(({ name, count, href, icon: Icon, emoji }) => (
+            items.map(({ name, count, href, icon: Icon }) => (
             <Link
               key={name}
               href={href}
               className="group relative flex flex-col items-center overflow-hidden rounded-xl border border-neutral-400 bg-neutral-100 p-4 text-center shadow-sm transition-all duration-200 ease-out hover:-translate-y-[2px] hover:border-[#FF6C00]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6C00]/30 sm:p-3.5"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-neutral-200 text-neutral-600 transition-all duration-200 ease-out group-hover:bg-[#FF6C00] group-hover:text-white group-hover:shadow-[0_4px_14px_rgba(255,108,0,0.30)] sm:h-11 sm:w-11">
-                {emoji ? (
-                  <span className="text-xl sm:text-lg" aria-hidden>{emoji}</span>
-                ) : Icon ? (
-                  <Icon className="h-6 w-6 sm:h-5 sm:w-5" strokeWidth={1.75} aria-hidden />
-                ) : null}
+                <Icon className="h-6 w-6 sm:h-5 sm:w-5" strokeWidth={1.75} aria-hidden />
               </span>
 
               <h3 className="mt-2 line-clamp-2 text-xs font-semibold leading-snug text-[#262626]">{name}</h3>

@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
 
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+      <div className="mx-auto max-w-8xl px-4 py-6 sm:px-6">
         {/* Breadcrumb */}
         <nav className="flex flex-wrap items-center gap-1 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-[#ff6c00]">

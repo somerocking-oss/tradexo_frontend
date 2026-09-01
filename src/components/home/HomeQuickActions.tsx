@@ -33,7 +33,7 @@ const ACTIONS: { label: string; hint: string; href: string; icon: LucideIcon }[]
 export function HomeQuickActions() {
   return (
     <section className="border-b border-neutral-400 bg-white py-5 sm:py-6">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-3 px-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+      <div className="mx-auto grid max-w-8xl grid-cols-2 gap-3 px-3 sm:grid-cols-4 sm:gap-4 sm:px-4">
         {ACTIONS.map(({ label, hint, href, icon: Icon }) => (
           <Link
             key={label}

@@ -8,8 +8,8 @@ const BENEFITS = ["Free to Post", "Multiple Quotes", "Verified Suppliers"];
 
 export function HomePostRequirementBanner() {
   return (
-    <section className="bg-[#FFF4EE] px-4 py-8 sm:px-6 sm:py-10">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-[#FFF4EE] px-3 py-8 sm:px-4 sm:py-10">
+      <div className="mx-auto max-w-8xl">
         {/* Card with orange left accent */}
         <div className="relative overflow-hidden rounded-2xl border border-[#FFD9C0] bg-white shadow-[0_2px_12px_rgba(255,108,0,0.08)]">
           {/* Left accent stripe */}

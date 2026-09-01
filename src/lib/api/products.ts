@@ -2,7 +2,25 @@ import { apiGet, apiPost, apiPut, apiDelete } from "@/lib/api/client";
 import type { BusinessCatalogItem, Business } from "@/types";
 
 export interface MarketplaceProduct extends BusinessCatalogItem {
-  business?: Pick<Business, "_id" | "name" | "slug" | "city" | "state" | "phone" | "mobile" | "whatsapp" | "isVerified" | "isFeatured">;
+  business?: Pick<
+    Business,
+    | "_id"
+    | "name"
+    | "slug"
+    | "city"
+    | "state"
+    | "phone"
+    | "mobile"
+    | "whatsapp"
+    | "isVerified"
+    | "isFeatured"
+    | "logo"
+    | "averageRating"
+    | "rating"
+    | "establishmentYear"
+    | "description"
+    | "shortDescription"
+  >;
   category?: { _id: string; name: string; slug?: string };
 }
 
@@ -64,6 +82,27 @@ export async function createBusinessProduct(data: {
   inStock?: boolean;
 }) {
   return apiPost<BusinessCatalogItem>("/business-services", data);
+}
+
+export interface BulkImportRow {
+  name: string;
+  itemType?: "product" | "service";
+  description?: string;
+  price?: number;
+  priceType?: string;
+  brand?: string;
+  unit?: string;
+  minimumOrderQuantity?: number;
+  inStock?: boolean;
+}
+
+export interface BulkImportResult {
+  created: BusinessCatalogItem[];
+  errors: { row: number; message: string }[];
+}
+
+export async function bulkCreateBusinessProducts(businessId: string, items: BulkImportRow[]) {
+  return apiPost<BulkImportResult>("/business-services/bulk", { businessId, items });
 }
 
 export async function updateBusinessProduct(

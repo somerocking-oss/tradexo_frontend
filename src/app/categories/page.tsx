@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, LayoutGrid } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { buildListingsUrl, categoryToSlug } from "@/lib/listings-url";
 import { fetchAllCategoriesAllPages } from "@/lib/api/category-server";
 import { buildBreadcrumbJsonLd } from "@/lib/seo";
+import { resolveIcon } from "@/lib/categoryIcons";
 
 export const revalidate = 300;
 
@@ -58,7 +59,7 @@ export default async function CategoriesPage() {
       />
       {/* Hero */}
       <div className="border-b border-neutral-200 bg-gradient-to-b from-neutral-100 to-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="mx-auto max-w-8xl px-4 py-12 sm:px-6 sm:py-16">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[#FF6C00]">
             Business Directory
           </p>
@@ -84,7 +85,7 @@ export default async function CategoriesPage() {
 
       {/* Category grid */}
       <div className="bg-neutral-50 py-10 sm:py-14">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto max-w-8xl px-3 sm:px-4">
           {categories.length === 0 ? (
             <p className="py-20 text-center text-neutral-500">No categories found.</p>
           ) : (
@@ -107,19 +108,17 @@ export default async function CategoriesPage() {
                             ? `${cat.subCategoryCount} sub-categories`
                             : null;
 
+                      const Icon = resolveIcon(cat.name);
+
                       return (
                         <Link
                           key={cat._id}
                           href={href}
                           className="group relative flex flex-col items-center overflow-hidden rounded-xl border border-neutral-200 bg-white p-5 text-center shadow-sm transition-all duration-200 hover:-translate-y-[2px] hover:border-[#FF6C00]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6C00]/30"
                         >
-                          {/* Icon / emoji */}
+                          {/* Icon */}
                           <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-100 text-neutral-600 transition-all duration-200 group-hover:bg-[#FF6C00] group-hover:text-white group-hover:shadow-[0_4px_14px_rgba(255,108,0,0.30)]">
-                            {cat.icon ? (
-                              <span className="text-2xl" aria-hidden>{cat.icon}</span>
-                            ) : (
-                              <LayoutGrid className="h-5 w-5" aria-hidden />
-                            )}
+                            <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
                           </span>
 
                           {/* Name */}

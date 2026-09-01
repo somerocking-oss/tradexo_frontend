@@ -50,7 +50,7 @@ export function HomeFAQ() {
   };
 
   return (
-    <section className="bg-white px-4 py-12 sm:px-6 sm:py-14" aria-labelledby="faq-heading">
+    <section className="bg-white px-3 py-12 sm:px-4 sm:py-14" aria-labelledby="faq-heading">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <div className="mx-auto max-w-3xl">

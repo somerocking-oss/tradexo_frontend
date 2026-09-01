@@ -179,6 +179,9 @@
   --animate-slide-down:  slideDown 250ms ease-out both;
   --animate-scale-in:    scaleIn 150ms ease-out both;
   --animate-pulse-brand: pulse-brand 2.4s ease-out infinite;
+
+  /* Containers */
+  --container-8xl: 90rem; /* 1440px */
 }
 
 /* ─────────────────────────────────────────────
@@ -475,7 +478,7 @@
 /* Page container — max-width content wrapper */
 .page-container {
   width: 100%;
-  max-width: 80rem; /* 1280px / max-w-7xl */
+  max-width: 90rem; /* 1440px / max-w-8xl */
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;

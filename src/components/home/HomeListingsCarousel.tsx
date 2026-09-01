@@ -152,8 +152,8 @@ export function HomeListingsCarousel({
   }, [tab]);
 
   return (
-    <section className="border-b border-sky-200 bg-sky-50 px-4 py-16 sm:px-6 sm:py-20" aria-labelledby="listings-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-b border-sky-200 bg-sky-50 px-3 py-16 sm:px-4 sm:py-20" aria-labelledby="listings-heading">
+      <div className="mx-auto max-w-8xl">
         {/* Section header */}
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>

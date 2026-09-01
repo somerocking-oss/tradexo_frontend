@@ -30,7 +30,7 @@ export default async function DirectoryPage() {
     <MainLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6">
         <h1 className="text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl">
           Browse Suppliers by State
         </h1>

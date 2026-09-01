@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/constants";
 export function HomePreFooter() {
   return (
     <section
-      className="relative overflow-hidden px-4 py-8 sm:px-6 sm:py-10"
+      className="relative overflow-hidden px-3 py-8 sm:px-4 sm:py-10"
       style={{
         background:
           "linear-gradient(160deg, #0B1120 0%, #0F172A 35%, #1A2540 65%, #0F172A 100%)",

@@ -11,6 +11,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import { resolveIcon } from "@/lib/categoryIcons";
 
 type Breadcrumb = { label: string; href?: string };
 
@@ -35,6 +36,7 @@ function resolveStatIcon(iconName?: string) {
 export function ListingsPageHero({
   pageTitle,
   pageSubtitle,
+  categoryName,
   breadcrumbs = [],
   compact = false,
   isFiltered = false,
@@ -42,6 +44,7 @@ export function ListingsPageHero({
 }: {
   pageTitle: string;
   pageSubtitle?: string;
+  categoryName?: string;
   breadcrumbs?: Breadcrumb[];
   compact?: boolean;
   isFiltered?: boolean;
@@ -50,7 +53,7 @@ export function ListingsPageHero({
   if (compact) {
     return (
       <div className="border-b border-neutral-400 bg-white px-4 py-5 sm:px-6">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-8xl">
           {breadcrumbs.length > 0 && (
             <nav aria-label="Breadcrumb" className="mb-2 flex flex-wrap items-center gap-1 text-xs text-[#888]">
               {breadcrumbs.map((item, i) => (
@@ -72,51 +75,87 @@ export function ListingsPageHero({
   }
 
   if (isFiltered) {
-    return (
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#0B3B6F] via-[#0A3159] to-[#08284A]">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#ff6c00]/10 blur-3xl" aria-hidden />
-        <div className="pointer-events-none absolute -left-16 bottom-0 h-56 w-56 rounded-full bg-white/5 blur-3xl" aria-hidden />
+    const CategoryIcon = resolveIcon(categoryName || "");
+    const titleParts = categoryName && pageTitle.includes(categoryName)
+      ? pageTitle.split(categoryName)
+      : null;
 
-        <div className="relative mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-9">
+    return (
+      <div className="relative overflow-hidden border-b border-neutral-400 bg-gradient-to-br from-[#EAF2FB] via-white to-[#F5F9FF]">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#0B3B6F]/5 blur-3xl" aria-hidden />
+
+        <div className="relative mx-auto max-w-8xl px-4 py-7 sm:px-6 sm:py-9">
           {breadcrumbs.length > 0 && (
-            <nav aria-label="Breadcrumb" className="mb-3 flex flex-wrap items-center gap-1 text-xs text-white/60">
+            <nav aria-label="Breadcrumb" className="mb-3 flex flex-wrap items-center gap-1 text-xs text-[#888]">
               {breadcrumbs.map((item, i) => (
                 <span key={`${item.label}-${i}`} className="flex items-center gap-1">
                   {i > 0 && <ChevronRight className="h-3 w-3 shrink-0" aria-hidden />}
                   {item.href ? (
-                    <Link href={item.href} className="hover:text-white">{item.label}</Link>
+                    <Link href={item.href} className="hover:text-[#0B3B6F]">{item.label}</Link>
                   ) : (
-                    <span className="font-medium text-white/85">{item.label}</span>
+                    <span className="font-medium text-[#555]">{item.label}</span>
                   )}
                 </span>
               ))}
             </nav>
           )}
 
-          <h1 className="max-w-3xl text-2xl font-extrabold leading-tight text-white sm:text-3xl lg:text-4xl">
-            {pageTitle}
-          </h1>
-          <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">
-            {pageSubtitle ||
-              "Discover verified businesses, compare quotes and grow your business faster."}
-          </p>
+          <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-10">
+            <div>
+              <h1 className="max-w-xl text-2xl font-extrabold leading-tight text-[#111] sm:text-3xl lg:text-4xl">
+                {titleParts ? (
+                  <>
+                    {titleParts[0]}
+                    <span className="text-[#0B3B6F]">{categoryName}</span>
+                    {titleParts[1]}
+                  </>
+                ) : (
+                  pageTitle
+                )}
+              </h1>
+              <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-[#666] sm:text-base">
+                {pageSubtitle ||
+                  "Discover verified businesses, compare quotes and grow your business faster."}
+              </p>
 
-          {trustStats.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-2.5">
-              {trustStats.slice(0, 4).map(({ icon: iconName, value, label }) => {
-                const Icon = resolveStatIcon(iconName);
-                return (
-                  <div
-                    key={label}
-                    className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm sm:text-sm"
-                  >
-                    <Icon className="h-4 w-4 shrink-0 text-[#ff8533]" aria-hidden />
-                    {value} {label}
-                  </div>
-                );
-              })}
+              {trustStats.length > 0 && (
+                <div className="mt-5 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap">
+                  {trustStats.slice(0, 4).map(({ icon: iconName, value, label }) => {
+                    const Icon = resolveStatIcon(iconName);
+                    return (
+                      <div
+                        key={label}
+                        className="flex items-center gap-2 rounded-xl border border-neutral-400 bg-white px-3.5 py-2.5 text-xs font-medium text-[#333] shadow-sm sm:text-sm"
+                      >
+                        <Icon className="h-4 w-4 shrink-0 text-[#ff6c00]" aria-hidden />
+                        <span>
+                          <span className="block font-bold text-[#111]">{value}</span>
+                          <span className="text-[11px] text-[#888]">{label}</span>
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          )}
+
+            {/* Decorative category graphic — icon-based, not a stock photo */}
+            <div className="relative mx-auto hidden w-full max-w-sm lg:block">
+              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0B3B6F] via-[#0A3159] to-[#08284A] p-10 shadow-xl">
+                <div
+                  className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#ff6c00]/20 blur-2xl"
+                  aria-hidden
+                />
+                <div className="relative mx-auto flex h-28 w-28 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
+                  <CategoryIcon className="h-14 w-14 text-white" strokeWidth={1.5} aria-hidden />
+                </div>
+                <div className="relative mx-auto mt-5 flex w-fit items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/90">
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#ff8533]" aria-hidden />
+                  Verified on Tradexo
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -126,7 +165,7 @@ export function ListingsPageHero({
     <div className="relative overflow-hidden border-b border-neutral-400 bg-gradient-to-br from-[#f0f0f0] via-white to-[#f8fafc]">
       <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-[#ff6c00]/5 blur-3xl" aria-hidden />
 
-      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+      <div className="relative mx-auto max-w-8xl px-4 py-8 sm:px-6 sm:py-10">
         {breadcrumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-1 text-xs text-[#888]">
             {breadcrumbs.map((item, i) => (

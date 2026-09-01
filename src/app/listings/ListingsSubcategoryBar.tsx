@@ -28,7 +28,7 @@ export function ListingsSubcategoryBar({
 
   return (
     <section className="border-b border-neutral-200 bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+      <div className="mx-auto max-w-8xl px-4 py-3 sm:px-6">
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
           Browse by type
         </p>

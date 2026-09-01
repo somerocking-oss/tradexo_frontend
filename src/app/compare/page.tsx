@@ -262,7 +262,7 @@ function SkeletonCard() {
 
 function SkeletonPage({ colCount }: { colCount: number }) {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6 lg:px-8">
       {/* top bar skeleton */}
       <div className="mb-8 animate-pulse rounded-xl border border-neutral-100 bg-white p-4 shadow-sm">
         <div className="flex gap-4">
@@ -490,7 +490,7 @@ function CompareContent() {
   const colCount = businesses.length;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6 lg:px-8">
       {/* Page header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold tracking-tight text-neutral-900">
@@ -703,7 +703,7 @@ export default function ComparePage() {
       <div className="min-h-screen bg-neutral-200">
         <Suspense
           fallback={
-            <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6 lg:px-8">
               <SkeletonPage colCount={2} />
             </div>
           }

@@ -39,8 +39,8 @@ export function Testimonials({ section }: { section?: TestimonialsSection }) {
   };
 
   return (
-    <section className="home-section-muted px-4 py-16 sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <section className="home-section-muted px-3 py-16 sm:px-4">
+      <div className="mx-auto max-w-8xl">
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <span className="home-eyebrow mx-auto before:hidden sm:before:inline-block">{config.eyebrow}</span>
           <h2 className="home-section-title mt-1">{config.title}</h2>

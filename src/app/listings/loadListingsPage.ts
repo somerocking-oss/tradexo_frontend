@@ -149,6 +149,7 @@ export function buildListingsHeroProps(
   return {
     pageTitle: hasActiveFilters ? seo.h1 : DEFAULT_HERO_TITLE,
     pageSubtitle: seo.subtitle,
+    categoryName: filters.categoryName || undefined,
     breadcrumbs: uiBreadcrumbs,
     compact: Boolean(filters.nearMe && filters.viewMode === "map"),
     isFiltered: hasActiveFilters,

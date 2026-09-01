@@ -71,7 +71,7 @@ export async function ListingsCityPageContent({
       <ListingsPageHero {...data.hero} />
       <Suspense
         fallback={
-          <div className="mx-auto max-w-7xl px-4 py-20 text-center text-slate-500 sm:px-6">
+          <div className="mx-auto max-w-8xl px-4 py-20 text-center text-slate-500 sm:px-6">
             Loading listings...
           </div>
         }

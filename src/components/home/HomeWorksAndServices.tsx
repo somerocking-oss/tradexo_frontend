@@ -39,7 +39,7 @@ export function HomeWorksAndServices({ section }: { section?: HowItWorksSection 
     : DEFAULT_STEPS;
 
   return (
-    <section className="relative overflow-hidden bg-[#0F1E3D] px-4 py-14 sm:px-6 sm:py-16">
+    <section className="relative overflow-hidden bg-[#0F1E3D] px-3 py-14 sm:px-4 sm:py-16">
       {/* Top accent */}
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-px"
@@ -59,7 +59,7 @@ export function HomeWorksAndServices({ section }: { section?: HowItWorksSection 
         aria-hidden
       />
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:gap-14">
+      <div className="relative mx-auto grid max-w-8xl gap-10 lg:grid-cols-2 lg:gap-14">
 
         {/* Left — compact numbered steps */}
         <div>

@@ -182,7 +182,7 @@ export function BrowsePageClient({
         aria-label="Breadcrumb"
         className="border-b border-neutral-100 bg-white"
       >
-        <div className="mx-auto flex max-w-7xl items-center gap-1.5 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-8xl items-center gap-1.5 px-4 py-3 sm:px-6 lg:px-8">
           <Link
             href="/"
             className="flex items-center gap-1 text-xs text-neutral-500 transition-colors hover:text-[#FF6C00]"
@@ -206,7 +206,7 @@ export function BrowsePageClient({
 
       {/* ── Hero section ───────────────────────────────────────────────────── */}
       <section className="border-b border-neutral-100 bg-gradient-to-b from-[#F0F0F0] to-white">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <div className="mx-auto max-w-8xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
             {/* Icon bubble */}
             <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-[#E5E5E5] bg-white text-3xl shadow-sm sm:h-20 sm:w-20 sm:text-4xl">
@@ -285,7 +285,7 @@ export function BrowsePageClient({
       {/* ── Sub-category chips ─────────────────────────────────────────────── */}
       {subCategories.length > 0 && (
         <section className="border-b border-neutral-100 bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-8xl px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <span className="shrink-0 text-xs font-semibold uppercase tracking-widest text-neutral-400">
                 Related
@@ -307,7 +307,7 @@ export function BrowsePageClient({
 
       {/* ── Main content ───────────────────────────────────────────────────── */}
       <div className="bg-neutral-200">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-8xl px-4 py-8 sm:px-6 lg:px-8">
           {/* Toolbar */}
           <div className="mb-5 flex items-center justify-between">
             <div>

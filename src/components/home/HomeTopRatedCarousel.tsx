@@ -97,8 +97,8 @@ export function HomeTopRatedCarousel({ businesses = [] }: { businesses?: Busines
   if (!businesses.length) return null;
 
   return (
-    <section className="border-b border-neutral-300 bg-white px-4 py-12 sm:px-6 sm:py-14">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-b border-neutral-300 bg-white px-3 py-12 sm:px-4 sm:py-14">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-2xl font-bold text-[#111] sm:text-3xl">Top Rated Businesses</h2>
           <div className="flex flex-wrap gap-2">

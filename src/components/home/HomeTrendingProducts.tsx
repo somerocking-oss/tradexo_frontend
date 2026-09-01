@@ -11,8 +11,8 @@ export function HomeTrendingProducts({ products = [] }: { products?: Marketplace
   if (!products.length) return null;
 
   return (
-    <section className="border-b border-neutral-300 bg-white px-4 py-12 sm:px-6 sm:py-14" aria-labelledby="trending-products-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-b border-neutral-300 bg-white px-3 py-12 sm:px-4 sm:py-14" aria-labelledby="trending-products-heading">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-[#A3A3A3]">

@@ -55,10 +55,10 @@ export function HomeTestimonialsCarousel({ section }: { section?: TestimonialsSe
 
   return (
     <section
-      className="bg-[#F5F5F5] px-4 py-14 sm:px-6 sm:py-16"
+      className="bg-[#F5F5F5] px-3 py-14 sm:px-4 sm:py-16"
       aria-labelledby="testimonials-heading"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-8xl">
         {/* Header */}
         <div className="mx-auto mb-8 max-w-xl text-center">
           <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-[#E5E5E5] bg-[#F0F0F0] px-3.5 py-1.5">

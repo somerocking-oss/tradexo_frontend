@@ -42,8 +42,8 @@ export function HomeFeatured({
   if (!isLoading && businesses.length === 0) return null;
 
   return (
-    <section className="bg-white px-4 py-12 sm:px-6 sm:py-14">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-white px-3 py-12 sm:px-4 sm:py-14">
+      <div className="mx-auto max-w-8xl">
         <span className="home-eyebrow">Featured</span>
         <h2 className="home-section-title">{title}</h2>
         <p className="home-section-subtitle mb-6">{subtitle}</p>

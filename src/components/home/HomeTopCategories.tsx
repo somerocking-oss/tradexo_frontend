@@ -19,8 +19,8 @@ export function HomeTopCategories({
   if (!items.length) return null;
 
   return (
-    <section className="bg-white px-4 py-10 sm:px-6 sm:py-12">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-white px-3 py-10 sm:px-4 sm:py-12">
+      <div className="mx-auto max-w-8xl">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h2 className="text-xl font-bold text-neutral-900 sm:text-2xl">{title}</h2>
           <Link

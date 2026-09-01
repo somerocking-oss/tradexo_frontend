@@ -13,7 +13,7 @@ const STATS = [
 export function HomeStatsBar() {
   return (
     <section className="border-y border-neutral-400 bg-white py-4">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-6 px-4 sm:justify-between sm:gap-4 sm:px-6">
+      <div className="mx-auto flex max-w-8xl flex-wrap items-center justify-center gap-6 px-3 sm:justify-between sm:gap-4 sm:px-4">
         {STATS.map(({ value, label, icon: Icon }) => (
           <div key={label} className="flex items-center gap-2 text-center sm:text-left">
             <Icon className="h-5 w-5 shrink-0 text-[#ff6c00]" aria-hidden />

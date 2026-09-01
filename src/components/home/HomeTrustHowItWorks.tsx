@@ -45,8 +45,8 @@ const HOW_STEPS = [
 
 export function HomeTrustHowItWorks() {
   return (
-    <section className="bg-white px-4 py-12 sm:px-6 sm:py-14">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:gap-12">
+    <section className="bg-white px-3 py-12 sm:px-4 sm:py-14">
+      <div className="mx-auto grid max-w-8xl gap-10 lg:grid-cols-2 lg:gap-12">
         {/* Why Trust */}
         <div>
           <h2 className="text-2xl font-bold text-[#111] sm:text-3xl">

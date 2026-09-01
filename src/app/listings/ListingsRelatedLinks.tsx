@@ -39,7 +39,7 @@ export function ListingsRelatedLinks({
   if (!relatedCategories.length && !nearbyCities.length) return null;
 
   return (
-    <div className="mx-auto mt-8 max-w-7xl space-y-5 px-4 sm:px-6">
+    <div className="mx-auto mt-8 max-w-8xl space-y-5 px-3 sm:px-4">
       {relatedCategories.length > 0 && (
         <div className="rounded-xl border border-neutral-200 bg-white p-4">
           <p className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-neutral-500">
