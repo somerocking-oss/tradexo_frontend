@@ -11,6 +11,7 @@ import {
   updateBusinessDocument,
   uploadBusinessDocument,
 } from "@/lib/api/kyc";
+import { API_URL } from "@/lib/api-url";
 import type { BusinessDocument } from "@/types";
 
 interface KycDocumentsSectionProps {
@@ -162,7 +163,7 @@ export function KycDocumentsSection({
                     href={
                       (doc.secureUrl || doc.url)?.startsWith("http")
                         ? doc.secureUrl || doc.url
-                        : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003"}${doc.secureUrl || doc.url}`
+                        : `${API_URL}${doc.secureUrl || doc.url}`
                     }
                     target="_blank"
                     rel="noreferrer"

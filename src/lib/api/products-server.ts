@@ -1,7 +1,6 @@
 import { cache } from "react";
 import type { MarketplaceProduct } from "@/lib/api/products";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
+import { API_URL as API } from "@/lib/api-url";
 const FETCH_TIMEOUT_MS = 8000;
 
 export interface ProductDetailResponse {

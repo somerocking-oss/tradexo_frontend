@@ -1,8 +1,7 @@
 import { cache } from "react";
 import { normalizeBrandText, resolveSiteName } from "./brand";
 import { SITE_URL } from "./constants";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
+import { API_URL as API } from "./api-url";
 const FETCH_TIMEOUT_MS = 8000;
 
 export interface OnPageSeoListings {

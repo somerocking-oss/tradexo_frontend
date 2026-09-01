@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io, type Socket } from "socket.io-client";
 import { useAuth } from "@/context/AuthContext";
+import { API_URL } from "@/lib/api-url";
 
 const SocketContext = createContext<Socket | null>(null);
 
@@ -13,11 +14,10 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (loading || !isAuthenticated || !user?._id) return;
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) return;
 
-    const instance = io(apiUrl, {
+    const instance = io(API_URL, {
       auth: { token },
       transports: ["polling", "websocket"],
       reconnection: true,

@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { API_URL } from "@/lib/api-url";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -44,8 +45,7 @@ export function getImageUrl(source?: ImageSource): string {
     return BUSINESS_PLACEHOLDER;
   }
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
-  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+  return `${API_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 export function getBusinessHeroImage(business: {

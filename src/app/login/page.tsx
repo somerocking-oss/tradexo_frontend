@@ -17,6 +17,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { getOtpSettings, sendOtp, verifyOtp } from "@/lib/api/auth";
 import { useAuth } from "@/context/AuthContext";
 import { SITE_NAME } from "@/lib/constants";
+import { API_URL } from "@/lib/api-url";
 
 type OtpChannel = "sms" | "whatsapp";
 
@@ -158,7 +159,7 @@ function BrandPanel() {
   >([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003"}/api/v1/businesses/platform-stats`)
+    fetch(`${API_URL}/api/v1/businesses/platform-stats`)
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
         const data = json?.data;

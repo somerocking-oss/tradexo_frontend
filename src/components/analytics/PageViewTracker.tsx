@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { API_URL as API } from "@/lib/api-url";
 
 const SESSION_KEY = "ld_session_id";
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
 
 function getSessionId(): string {
   if (typeof window === "undefined") return "";

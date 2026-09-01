@@ -1,8 +1,7 @@
 import { cache } from "react";
 import { extractBusinessList, extractPagination } from "@/lib/api/business";
 import type { Business } from "@/types";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
+import { API_URL as API } from "@/lib/api-url";
 const FETCH_TIMEOUT_MS = 8000;
 
 async function fetchBusinessesServer(params: Record<string, string | number | boolean>) {

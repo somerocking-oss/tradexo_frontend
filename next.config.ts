@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
+const internalApiUrl = process.env.INTERNAL_API_URL || apiUrl;
 
 const apiHost = (() => {
   try {
@@ -83,7 +84,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: `${apiUrl}/api/:path*`,
+        destination: `${internalApiUrl}/api/:path*`,
       },
     ];
   },

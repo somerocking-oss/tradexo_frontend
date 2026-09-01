@@ -1,8 +1,7 @@
 import { cache } from "react";
 import { extractSubCategories } from "@/lib/api/subcategory";
 import type { SubCategory } from "@/types";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
+import { API_URL as API } from "@/lib/api-url";
 const FETCH_TIMEOUT_MS = 8000;
 
 async function fetchSubCategoryRecord(

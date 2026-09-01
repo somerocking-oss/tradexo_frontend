@@ -13,8 +13,7 @@ import {
 import { fetchAllCategoriesAllPages } from "@/lib/api/category-server";
 import { categoryToSlug } from "@/lib/listings-url";
 import type { MarketplaceProductsResponse } from "@/lib/api/products";
-
-const PRODUCTS_API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5003";
+import { API_URL as PRODUCTS_API } from "@/lib/api-url";
 
 // Safety cap — every combo here is backed by >=1 real business (no thin-content
 // risk), but this bounds sitemap size until per-chunk pagination is added.
